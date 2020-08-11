@@ -1,0 +1,4 @@
+package-lock.json
+.next
+node_modules/
+dist
