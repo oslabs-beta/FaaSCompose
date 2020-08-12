@@ -207,4 +207,4 @@ function Paperbase(props: PaperbaseProps) {
   );
 }
 
-export default theme;
+export default withStyles(styles)(Paperbase);
