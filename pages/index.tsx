@@ -1,5 +1,8 @@
 import Head from 'next/head';
 import BasicFlow from '../components/FlowChart';
+import NextLink from 'next/link';
+import MuiLink from '@material-ui/core/Link';
+import { Button } from '@material-ui/core';
 
 const Home = (): JSX.Element => {
   return (
@@ -9,6 +12,7 @@ const Home = (): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <BasicFlow />
+      <Button color="primary">Hello World</Button>
     </div>
   );
 };
