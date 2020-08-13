@@ -10,7 +10,7 @@ const Home = (): JSX.Element => {
       </Head>
       <BasicFlow />
     </div>
-  );
-};
+  )
+}
 
 export default Home;
