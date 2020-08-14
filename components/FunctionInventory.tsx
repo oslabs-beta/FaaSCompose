@@ -1,5 +1,6 @@
 import { Card, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import functions from '../data/functions.json';
+// import { useState } from 'react';
 
 const FunctionInventory = () => {
   let funcs = [];
