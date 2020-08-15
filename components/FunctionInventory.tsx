@@ -10,9 +10,7 @@ import functions from '../data/functions.json';
 import { useEffect } from 'react';
 
 const FunctionInventory = () => {
-  useEffect(() => {
-    window.localStorage.setItem('function', 'cat test');
-  });
+  useEffect(() => {});
 
   let funcs = [];
   functions.map((func) => {

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import Editor from '@monaco-editor/react';
 
@@ -12,19 +12,22 @@ const FuncEditor = (): JSX.Element => {
   };
 
   const addFunc = () => {
+    const currentFuncs = JSON.parse(window.localStorage.getItem('functions'));
     const id = String(Math.floor(Math.random() * 1000));
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;
     const description = (document.getElementById(
       'description'
     ) as HTMLTextAreaElement).value;
-    const newFunc = valueGetter.current();
-    const jsonFunc = JSON.stringify({
+    const newFuncObj = {
       id: id,
       name: name,
       description: description,
-      definition: newFunc,
-    });
-    window.localStorage.setItem(id, jsonFunc);
+      definition: valueGetter.current(),
+    };
+
+    currentFuncs.push(newFuncObj);
+    console.log('type of: ', typeof currentFuncs);
+    window.localStorage.setItem('functions', JSON.stringify(currentFuncs));
   };
 
   return (
