@@ -1,15 +1,18 @@
 [
   {
+    "id": "1",
     "name": "authenticate",
     "description": "function to authenticate users",
     "definition": "function ({ password }) { return { value: password === 'abc123' }"
   },
   {
+    "id": "2",
     "name": "success authenticate",
     "description": "function to authenticate users",
     "definition": "function () { return { message: 'success' }"
   },
   {
+    "id": "3",
     "name": "failure authenticate",
     "description": "function to authenticate users",
     "definition": "function () { return { message: 'failure' }"
