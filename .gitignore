@@ -30,3 +30,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# cloud credentials
+/data/users/userconfig.json

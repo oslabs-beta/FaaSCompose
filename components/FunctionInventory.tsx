@@ -10,8 +10,6 @@ import functions from '../data/functions.json';
 import { useEffect } from 'react';
 
 const FunctionInventory = () => {
-  useEffect(() => {});
-
   let funcs = [];
   functions.map((func) => {
     funcs.push(

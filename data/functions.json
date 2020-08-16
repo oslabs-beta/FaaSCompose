@@ -1,20 +1,8 @@
 [
   {
-    "id": "1",
-    "name": "authenticate",
-    "description": "function to authenticate users",
-    "definition": "function ({ password }) { return { value: password === 'abc123' }"
-  },
-  {
-    "id": "2",
-    "name": "success authenticate",
-    "description": "function to authenticate users",
-    "definition": "function () { return { message: 'success' }"
-  },
-  {
-    "id": "3",
-    "name": "failure authenticate",
-    "description": "function to authenticate users",
-    "definition": "function () { return { message: 'failure' }"
+    "id": "4",
+    "name": "test function 5",
+    "description": "5 YET another test function coming from Postman.",
+    "definition": "const z = () => {return '5'};"
   }
 ]
