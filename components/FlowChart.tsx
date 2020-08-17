@@ -12,8 +12,9 @@ export const elements = [
   { id: 'e1-2', source: '1', target: '2', animated: true },
   { id: 'e1-3', source: '1a', target: '1', animated: true },
   { id: 'e1-4', source: '2', target: '1b', animated: true },
+];
 
-
+const elements_ifelse=[
   { id: '2a', data: { label: 'Start' }, position: { x: 490, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
   { id: '2-1', data: { label: 'Node 1' }, position: { x: 450, y: 75 } },
   { id: '2-2', data: { label: 'Node 2' }, position: { x: 350, y: 150 } },
@@ -74,7 +75,9 @@ const reducer= ( state, action)=>{
 };
 
 
-const BasicFlow = () =>{ 
+const BasicFlow = (props) =>{ 
+
+console.log('Basic flow props', props);
 
 
 
