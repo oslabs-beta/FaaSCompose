@@ -33,14 +33,16 @@ const [buttons, setButtons]=useState(flowStructure);
 
   return (
     <>
-    <h2>Flow</h2>
+    <h2>Choose Flow</h2>
     {
       
       Object.keys(buttons).map(button=> (
       <Button 
       key={buttons[button].id} 
       variant="secondary" size="lg" variant="outline-light" block 
-      onClick={()=>props.onClick(button)}>
+      onClick={()=>props.onClick(button)}
+      active={button==props.sequence ? true :false} 
+     >
         {buttons[button].display}
       </Button>))
     }
