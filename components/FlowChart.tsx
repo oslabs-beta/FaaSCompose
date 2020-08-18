@@ -1,61 +1,43 @@
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
-import ReactFlow, { useStoreState } from 'react-flow-renderer';
+import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
 
 
 
-// export const elements = [
-//   { id: '1a', data: { label: 'Start' }, position: { x: 90, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-//   { id: '1', data: { label: 'Node 1' }, position: { x: 50, y: 75 } },
-//   { id: '2', data: { label: 'Node 2' }, position: { x: 50, y: 150 } },
-//   { id: '1b', data: { label: 'End' }, position: { x: 90, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-//   { id: 'e1-2', source: '1', target: '2', animated: true },
-//   { id: 'e1-3', source: '1a', target: '1', animated: true },
-//   { id: 'e1-4', source: '2', target: '1b', animated: true },
-// ];
-const initElements=[
-  { id: '1a', data: { label: 'Start' }, position: { x: 90, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-  { id: '0', data: { label: 'Choose flow first' }, position: { x: 50, y: 75 } },
-  { id: '1b', data: { label: 'End' }, position: { x: 90, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
 
+const initElements=[
+  { id: 'init-start', data: { label: 'Start' }, position: { x: 190, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: 'init-0', data: { label: 'Choose a Flow first' }, position: { x: 75, y: 75 }, style: { fontWeight: 700,fontSize: 20, background: '#eee', color: '#333', border: '1px solid #bebebe', width: 300 },},
+  
+  { id: 'init-end', data: { label: 'End' }, position: { x: 190, y: 180 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: 'init-e1-3', source: 'init-start', target: 'init-0', animated: true },
+  { id: 'init-e1-4', source: 'init-0', target: 'init-end', animated: true },
 ];
+
+
 const elements = [
-  { id: '1a', data: { label: 'Start' }, position: { x: 90, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-  { id: '0', data: { label: 'Node 1' }, position: { x: 50, y: 75 } },
-  { id: '1', data: { label: 'Node 2' }, position: { x: 50, y: 150 } },
-  { id: '1b', data: { label: 'End' }, position: { x: 90, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-  { id: 'e1-2', source: '0', target: '1', animated: true },
-  { id: 'e1-3', source: '1a', target: '0', animated: true },
-  { id: 'e1-4', source: '1', target: '1b', animated: true },
+  { id: 'sequence-start', data: { label: 'Start' }, position: { x: 190, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: 'sequence-0', data: { label: 'Node 1' }, position: { x: 150, y: 75 }, style: { fontWeight: 400,fontSize: 15, background: '#eee', color: '#333' } },
+  { id: 'sequence-1', data: { label: 'Node 2' }, position: { x: 150, y: 150 }, style: { fontWeight: 400,fontSize: 15, background: '#eee', color: '#333' } },
+  { id: 'sequence-end', data: { label: 'End' }, position: { x: 190, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: 'e1-2', source: 'sequence-0', target: 'sequence-1', animated: true },
+  { id: 'e1-3', source: 'sequence-start', target: 'sequence-0', animated: true },
+  { id: 'e1-4', source: 'sequence-1', target: 'sequence-end', animated: true },
 ];
 
 const elements_ifelse=[
-  { id: '2a', data: { label: 'Start' }, position: { x: 490, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-  { id: '0', data: { label: 'Node 1' }, position: { x: 450, y: 75 } },
-  { id: '1', data: { label: 'Node 2' }, position: { x: 350, y: 150 } },
-  { id: '2', data: { label: 'Node 3' }, position: { x: 550, y: 150 } },
-  { id: '2b', data: { label: 'End' }, position: { x: 490, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-  { id: 'e2-2', source: '2a', target: '0', animated: true },
-  { id: 'e2-3', source: '0', target: '1', animated: false },
-  { id: 'e2-4', source: '0', target: '2', animated: false },
-  { id: 'e2-5', source: '1', target: '2b', animated: false },
-  { id: 'e2-6', source: '2', target: '2b', animated: false }
+  { id: 'ifelse-start', data: { label: 'Start' }, position: { x: 190, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: 'ifelse-0', data: { label: 'Node 1' }, position: { x: 150, y: 75 }, style: { fontWeight: 400,fontSize: 15, background: '#eee', color: '#333' } },
+  { id: 'ifelse-1', data: { label: 'Node 2' }, position: { x: 50, y: 150 }, style: { fontWeight: 400,fontSize: 15, background: '#eee', color: '#333' } },
+  { id: 'ifelse-2', data: { label: 'Node 3' }, position: { x: 250, y: 150 }, style: { fontWeight: 400,fontSize: 15, background: '#eee', color: '#333' } },
+  { id: 'ifelse-end', data: { label: 'End' }, position: { x: 190, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: 'e2-2', source: 'ifelse-start', target: 'ifelse-0', animated: true, },
+  { id: 'e2-3', source: 'ifelse-0', target: 'ifelse-1', animated: false ,type: 'smoothstep', arrowHeadType: 'arrowclosed'},
+  { id: 'e2-4', source: 'ifelse-0', target: 'ifelse-2', animated: false ,type: 'smoothstep', arrowHeadType: 'arrowclosed',  style: { stroke: '#f6ab6c' },},
+  { id: 'e2-5', source: 'ifelse-1', target: 'ifelse-end', animated: false ,type: 'smoothstep'},
+  { id: 'e2-6', source: 'ifelse-2', target: 'ifelse-end', animated: false ,type: 'smoothstep', style: { stroke: '#f6ab6c' }}
 ];
 
-
-// const elements_ifelse=[
-//   { id: '2a', data: { label: 'Start' }, position: { x: 490, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-//   { id: '2-1', data: { label: 'Node 1' }, position: { x: 450, y: 75 } },
-//   { id: '2-2', data: { label: 'Node 2' }, position: { x: 350, y: 150 } },
-//   { id: '2-3', data: { label: 'Node 3' }, position: { x: 550, y: 150 } },
-//   { id: '2b', data: { label: 'End' }, position: { x: 490, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
-//   { id: 'e2-2', source: '2a', target: '2-1', animated: true },
-//   { id: 'e2-3', source: '2-1', target: '2-2', animated: false },
-//   { id: 'e2-4', source: '2-1', target: '2-3', animated: false },
-//   { id: 'e2-5', source: '2-2', target: '2b', animated: false },
-//   { id: 'e2-6', source: '2-3', target: '2b', animated: false }
-// ];
- 
 
 export const ACTIONS = {
   ADD: "ADD",
@@ -69,33 +51,21 @@ export const ACTIONS = {
 };
 
 const reducer = ( state, action)=>{  
+  console.log('reducer::', state, action);
   switch (action.type) {
     case ACTIONS.SEQUENCE: {
+      console.log('ACTIONS.SEQUENCE', action)
       if(action.payload=='sequence'){ return elements }
       else if(action.payload=='ifelse') { return elements_ifelse }
-      else return state;
+      else return initElements;
     }
-    case ACTIONS.FUNCTIONS: {
-      // let newState=[];
-      //  if(action.payload!== []){
-      //   newState = state.map((node, i) => {
-      //     if(node.id==i-1){
-      //       console.log('node.id', node.id);
-      //       node.data = {label:action.payload[i-1]};          
-      //     }
-      //     return node;
-      //   });  
-      //  }
-      //  else newState = state;
-     
-      
-      //   return newState;
-      
+    case ACTIONS.FUNCTIONS: {    
       let newState = state.map(node=>{
-    //    console.log('id::',node.id, 'target', action.payload.target.id);
+
+
         if(node.id==action.payload.target){
           node.data = {label:action.payload.functionNames}; 
-          console.log('llll', action.payload.functionNames);
+          node.style={background:"#8DA9C4"}
         }
          return node;
        });
@@ -115,23 +85,8 @@ const reducer = ( state, action)=>{
     }
     case ACTIONS.REMOVE: {
       return state.filter((node) => node.id !== action.id);
-    }
-    // case ACTIONS.MODIFY_LABEL: {
-    // const newState = state.map((node) => {
-    //   if(node.id == action.payload.id){
-    //     node.data = {label:action.payload.newLabel};
-    //   }
-    //   return node;
-    // });
-    //    return newState;
-   
-     
-    // }
-
-  
-      
+    }      
     default:
-      console.log('default');
       return state;
   };
 };
@@ -145,7 +100,6 @@ const BasicFlow = (props) =>{
   const [target, setTarget]=useState('');
 
   useEffect(() => {
-    console.log('nodes state::',nodes);
     //update in sequence
     setType(()=>{
       if(type!=props.type){
@@ -168,28 +122,16 @@ const BasicFlow = (props) =>{
 
   }) ;
 
-  const onElementClick = (event, element) => {
-  //  return dispatch({ type: ACTIONS.MODIFY_LABEL, payload:
-  //   {id:element.id, newLabel:'TEXT'}
-  // });
+  const onElementClick = (event, element) => setTarget(element.id);
 
-  //add target node
-  // return dispatch({ type: ACTIONS.TARGET_NODE, payload:
-  //   {id:element.id}
-  // });
-  setTarget(element.id);
-  console.log('target',element.id);
-
-  }
-  const updateFromProps = (event, element) => {
-   
-  }
 
 return (
  <ReactFlow 
-elements={nodes} 
-style={{ background: 'white', width: '100%', height: '300px' }} 
-onElementClick={onElementClick}></ReactFlow>
+  elements={nodes} 
+  style={{ background: 'white', width: '100%', height: '300px' }} 
+  onElementClick={onElementClick}>
+    <Background color="#aaa" gap={4} />
+  </ReactFlow>
 )
 };
 

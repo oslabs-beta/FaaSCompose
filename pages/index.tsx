@@ -16,23 +16,19 @@ const Home = (): JSX.Element => {
     setSequence(el);
     setFunctions('');
   }
-  const functionsChange=(el)=>{
-    setFunctions(el)
-     // functions.includes(el) ? functions.filter(e=>el!== e) : functions.concat(el));
-    
-  };
+  const functionsChange=(el)=>setFunctions(el);
 
   return (
     <div className="App">
       <Container fluid>
         <Row>
-          <Col xs={2} md={2} lg={2} style={{ background: '#333' }} >
+          <Col xs={2} md={2} lg={2} style={{ background: '#4c5c68ff', height:'100vh' }} >
             <FlowButtons onClick={sequenceChange} sequence={sequence}/>
            <hr />
             <FunctionButtons  onClick={functionsChange} functions={functions}/>
           </Col>
-          <Col xs={10} md={10} lg={10} style={{ background: '#bebebe' }}>
-            <BasicFlow type={sequence} functionNames={functions}/>
+          <Col xs={10} md={10} lg={10} >
+            <BasicFlow type={sequence} functionNames={functions} />
             </Col>
         </Row>
       </Container>

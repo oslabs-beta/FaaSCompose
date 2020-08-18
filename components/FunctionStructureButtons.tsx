@@ -9,7 +9,7 @@ const [buttons, setButtons]=useState(functionsStructure);
 
   return (
     <>
-    <h2>Add Functions</h2>
+    <h2 className='mt-4' style={{color:'#fff', fontSize:24}}>Add functions</h2>
    
     {
       Object.keys(buttons).map(button=> (

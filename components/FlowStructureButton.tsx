@@ -33,7 +33,7 @@ const [buttons, setButtons]=useState(flowStructure);
 
   return (
     <>
-    <h2>Choose Flow</h2>
+    <h2 className='mt-4' style={{color:'#fff', fontSize:24}}>Choose a flow</h2>
     {
       
       Object.keys(buttons).map(button=> (
