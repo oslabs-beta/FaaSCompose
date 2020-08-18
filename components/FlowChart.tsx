@@ -13,7 +13,13 @@ import { nanoid } from 'nanoid';
 //   { id: 'e1-3', source: '1a', target: '1', animated: true },
 //   { id: 'e1-4', source: '2', target: '1b', animated: true },
 // ];
-export const elements = [
+const initElements=[
+  { id: '1a', data: { label: 'Start' }, position: { x: 90, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+  { id: '0', data: { label: 'Choose flow first' }, position: { x: 50, y: 75 } },
+  { id: '1b', data: { label: 'End' }, position: { x: 90, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
+
+];
+const elements = [
   { id: '1a', data: { label: 'Start' }, position: { x: 90, y: 5 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
   { id: '0', data: { label: 'Node 1' }, position: { x: 50, y: 75 } },
   { id: '1', data: { label: 'Node 2' }, position: { x: 50, y: 150 } },
@@ -54,29 +60,47 @@ const elements_ifelse=[
 export const ACTIONS = {
   ADD: "ADD",
   REMOVE: "REMOVE",
-  MODIFY_LABEL: "MODIFY_LABEL",
+  //MODIFY_LABEL: "MODIFY_LABEL",
   RESET: "RESET",
   UPDATE_POSITION: "UPDATE_POSITION",
   SEQUENCE: "SEQUENCE",
-  FUNCTIONS: "FUNCTIONS"
+  FUNCTIONS: "FUNCTIONS",
+
 };
 
-const reducer= ( state, action)=>{  
+const reducer = ( state, action)=>{  
   switch (action.type) {
     case ACTIONS.SEQUENCE: {
       if(action.payload=='sequence'){ return elements }
-      else { return elements_ifelse }
+      else if(action.payload=='ifelse') { return elements_ifelse }
+      else return state;
     }
-  
-      case ACTIONS.FUNCTIONS: {
-        const newState = state.map((node, i) => {
-          if(node.id==i-1){
-            node.data = {label:action.payload[i-1]};          
-          }
-          return node;
-        });
-        
-        return newState;
+    case ACTIONS.FUNCTIONS: {
+      // let newState=[];
+      //  if(action.payload!== []){
+      //   newState = state.map((node, i) => {
+      //     if(node.id==i-1){
+      //       console.log('node.id', node.id);
+      //       node.data = {label:action.payload[i-1]};          
+      //     }
+      //     return node;
+      //   });  
+      //  }
+      //  else newState = state;
+     
+      
+      //   return newState;
+      
+      let newState = state.map(node=>{
+    //    console.log('id::',node.id, 'target', action.payload.target.id);
+        if(node.id==action.payload.target){
+          node.data = {label:action.payload.functionNames}; 
+          console.log('llll', action.payload.functionNames);
+        }
+         return node;
+       });
+
+      return newState;
       }
 
     case ACTIONS.ADD: {
@@ -92,18 +116,22 @@ const reducer= ( state, action)=>{
     case ACTIONS.REMOVE: {
       return state.filter((node) => node.id !== action.id);
     }
-    case ACTIONS.MODIFY_LABEL: {
-    const newState = state.map((node) => {
-      if(node.id == action.payload.id){
-        node.data = {label:action.payload.newLabel};
-      }
-      return node;
-    });
-       return newState;
+    // case ACTIONS.MODIFY_LABEL: {
+    // const newState = state.map((node) => {
+    //   if(node.id == action.payload.id){
+    //     node.data = {label:action.payload.newLabel};
+    //   }
+    //   return node;
+    // });
+    //    return newState;
    
      
-    }
+    // }
+
+  
+      
     default:
+      console.log('default');
       return state;
   };
 };
@@ -111,12 +139,13 @@ const reducer= ( state, action)=>{
 
 const BasicFlow = (props) =>{ 
 
-  const [nodes, dispatch] = useReducer(reducer, elements);
+  const [nodes, dispatch] = useReducer(reducer, initElements);
   const [type, setType] = useState('sequence');
   const [functions, setFunctions]= useState();
+  const [target, setTarget]=useState('');
 
   useEffect(() => {
-
+    console.log('nodes state::',nodes);
     //update in sequence
     setType(()=>{
       if(type!=props.type){
@@ -128,19 +157,29 @@ const BasicFlow = (props) =>{
 
     //update functions name
     setFunctions(()=>{
-      if(props.functionNames!=functions){
-        dispatch({ type: ACTIONS.FUNCTIONS, payload:props.functionNames}); 
+      if(props.functionNames!=functions && target !== undefined){
+        dispatch({ 
+          type: ACTIONS.FUNCTIONS, 
+          payload:{target: target, functionNames: props.functionNames }}); 
         return props.functionNames;
       }
       else return functions;
     });
 
-  });
+  }) ;
 
   const onElementClick = (event, element) => {
-   return dispatch({ type: ACTIONS.MODIFY_LABEL, payload:
-    {id:element.id, newLabel:'TEXT'}
-  });
+  //  return dispatch({ type: ACTIONS.MODIFY_LABEL, payload:
+  //   {id:element.id, newLabel:'TEXT'}
+  // });
+
+  //add target node
+  // return dispatch({ type: ACTIONS.TARGET_NODE, payload:
+  //   {id:element.id}
+  // });
+  setTarget(element.id);
+  console.log('target',element.id);
+
   }
   const updateFromProps = (event, element) => {
    

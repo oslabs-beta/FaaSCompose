@@ -17,7 +17,7 @@ const [buttons, setButtons]=useState(functionsStructure);
       key={buttons[button].name} 
       variant="secondary" size="lg" variant="outline-light" block 
       onClick={()=> props.onClick(buttons[button].name)}
-      active={props.functions.includes(buttons[button].name) ? true :false} 
+      active={button==props.functions ? true :false}  
       >
         {buttons[button].name}
       </Button>))
@@ -27,4 +27,5 @@ const [buttons, setButtons]=useState(functionsStructure);
 };
 
 export default FunctionButtons;
+      // active={props.functions.includes(buttons[button].name) ? true :false}
 

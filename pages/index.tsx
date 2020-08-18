@@ -10,15 +10,16 @@ import React, {useState,useEffect, useReducer, useContext, createContext} from '
 
 const Home = (): JSX.Element => {
 
-  const [sequence, setSequence]=useState("sequence");
-  const [functions, setFunctions]=useState([]);
+  const [sequence, setSequence]=useState('');
+  const [functions, setFunctions]=useState('');
   const sequenceChange=(el)=>{
     setSequence(el);
-    setFunctions([]);
+    setFunctions('');
   }
   const functionsChange=(el)=>{
-    setFunctions(
-      functions.includes(el) ? functions.filter(e=>el!== e) : functions.concat(el));
+    setFunctions(el)
+     // functions.includes(el) ? functions.filter(e=>el!== e) : functions.concat(el));
+    
   };
 
   return (
