@@ -6,12 +6,12 @@ import {
   Tooltip,
   OverlayTrigger,
 } from 'react-bootstrap';
-import functions from '../data/functions.json';
+// import functions from '../data/functions.json';
 import { useEffect } from 'react';
 
 const FunctionInventory = () => {
   let funcs = [];
-  functions.map((func) => {
+  [].map((func) => {
     funcs.push(
       <OverlayTrigger
         placement="right"
