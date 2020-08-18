@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
 import Editor from '@monaco-editor/react';
 // Import contents of functions.json
-import functions from '../data/functions.json';
+// import functions from '../data/functions.json';
 
 const FuncEditor = (): JSX.Element => {
   console.log(typeof functions);
@@ -18,7 +18,7 @@ const FuncEditor = (): JSX.Element => {
   // Add function method, runs when "Add Function" button pressed
   const addFunc = () => {
     // Set currentFuncs to current contents of functions file (object)
-    const currentFuncs = functions;
+    const currentFuncs = [];
     // Pick a random id (I know there are better ways to do this, it's fine
     // for now)
     const id = String(Math.floor(Math.random() * 1000));
@@ -43,9 +43,12 @@ const FuncEditor = (): JSX.Element => {
     currentFuncs.push(newFuncObj);
     // There is a problem in here... Trying to fetch from the add-function api
     // and pass currentFuncs (which should be all functions + new one) to backend
-    fetch('/api/functions/add-function.js', {
+    fetch('/api/functions/upsert-function', {
       method: 'post',
-      body: JSON.stringify(currentFuncs),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newFuncObj),
     }).then(function (response) {
       console.log(response);
     });

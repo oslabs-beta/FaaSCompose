@@ -1,8 +1,0 @@
-[
-  {
-    "id": "4",
-    "name": "test function 5",
-    "description": "5 YET another test function coming from Postman.",
-    "definition": "const z = () => {return '5'};"
-  }
-]
