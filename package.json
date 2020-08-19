@@ -44,6 +44,7 @@
   "dependencies": {
     "@monaco-editor/react": "^3.5.7",
     "bootstrap": "^4.5.2",
+    "nanoid": "^3.1.12",
     "esprima": "^4.0.1",
     "fs": "0.0.1-security",
     "next": "9.5.2",

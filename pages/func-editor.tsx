@@ -1,12 +1,14 @@
 import { useRef, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Container, Button, Form } from 'react-bootstrap';
 import Editor from '@monaco-editor/react';
 // Import contents of functions.json
-// import functions from '../data/functions.json';
+// import functions from '../data/users/functions.json';
 
 const FuncEditor = (): JSX.Element => {
-  console.log(typeof functions);
+  const router = useRouter();
   const [isEditorReady, setIsEditorReady] = useState(false);
+
   // This is to get value of text in editor
   const valueGetter = useRef();
 
@@ -18,7 +20,7 @@ const FuncEditor = (): JSX.Element => {
   // Add function method, runs when "Add Function" button pressed
   const addFunc = () => {
     // Set currentFuncs to current contents of functions file (object)
-    const currentFuncs = [];
+    // const currentFuncs = functions;
     // Pick a random id (I know there are better ways to do this, it's fine
     // for now)
     const id = String(Math.floor(Math.random() * 1000));
@@ -31,8 +33,8 @@ const FuncEditor = (): JSX.Element => {
     ) as HTMLTextAreaElement).value;
     // Create object to hold new function with all values set
     const newFuncObj = {
-      id: id,
       name: name,
+      id: id,
       description: description,
       // This gets the value from the Editor
       definition: valueGetter.current(),
@@ -40,17 +42,20 @@ const FuncEditor = (): JSX.Element => {
 
     // Push new function onto end of currentFuncs,
     // combining it with already existing functions
-    currentFuncs.push(newFuncObj);
+    // currentFuncs[name] = newFuncObj;
     // There is a problem in here... Trying to fetch from the add-function api
     // and pass currentFuncs (which should be all functions + new one) to backend
     fetch('/api/functions/upsert-function', {
       method: 'post',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(newFuncObj),
     }).then(function (response) {
       console.log(response);
+      setTimeout(function () {
+        router.push('/');
+      }, 2000);
     });
   };
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
 import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
@@ -39,7 +38,6 @@ const elements_ifelse=[
   { id: 'e2-6', source: 'ifelse-2', target: 'ifelse-end', animated: false ,type: 'smoothstep', style: { stroke: '#f6ab6c' }}
 ];
 
-
 export const ACTIONS = {
   ADD: "ADD",
   REMOVE: "REMOVE",
@@ -52,10 +50,8 @@ export const ACTIONS = {
 };
 
 const reducer = ( state, action)=>{  
-  console.log('reducer::', state, action);
   switch (action.type) {
     case ACTIONS.SEQUENCE: {
-      console.log('ACTIONS.SEQUENCE', action)
       if(action.payload=='sequence'){ return elements }
       else if(action.payload=='ifelse') { return elements_ifelse }
       else return initElements;
@@ -131,7 +127,7 @@ return (
   elements={nodes} 
   style={{ background: 'white', width: '100%', height: '300px' }} 
   onElementClick={onElementClick}>
-    <Background color="#aaa" gap={4} />
+    <Background color="#ccc" gap={3} />
   </ReactFlow>
 )
 };

@@ -7,7 +7,7 @@ export const config = {
       sizeLimit: '1mb',
     },
   },
-}
+};
 
 export default (req, res) => {
   const directory = path.join(process.cwd(), 'data/users');
@@ -15,8 +15,8 @@ export default (req, res) => {
   // Take req.body (which should be ALL functions) and overwrite functions.json with that
 
   const functions = JSON.parse(fs.readFileSync(filePath));
-  const { name, description, definition } = req.body;
-  functions[name] = { name, description, definition };
+  const { name, description, definition, id } = req.body;
+  functions[name] = { name, id, description, definition };
 
   fs.writeFile(filePath, JSON.stringify(functions), function (err) {
     if (err) {
