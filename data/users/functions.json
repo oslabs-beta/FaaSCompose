@@ -1,17 +1,1 @@
-[
-    {
-        "name": "authenticate",
-        "description": "function to authenticate users",
-        "definition": "function ({ password }) { return { value: password === 'abc123' }"
-    },
-    {
-        "name": "success authenticate",
-        "description": "function to authenticate users",
-        "definition": "function () { return { message: 'success' }"
-    },
-    {
-        "name": "failure authenticate",
-        "description": "function to authenticate users",
-        "definition": "function () { return { message: 'failure' }"
-    }
-]
+{"authenticate":{"id":"1","name":"authenticate","description":"function to authenticate users","definition":"function ({ password }) { return { value: password === 'abc123' }"},"success authenticate":{"id":"2","name":"success authenticate","description":"function to authenticate users","definition":"function () { return { message: 'success' }"},"failure authenticate":{"id":"3","name":"failure authenticate","description":"function to authenticate users","definition":"function () { return { message: 'failure' }"},"Hello World":{"name":"Hello World","id":"749","description":"prints hello world","definition":"const helloWorld = () => {\n    console.log('hello world!');\n}"},"test":{"name":"test","id":"246","description":"test","definition":"// write your function here"}}
