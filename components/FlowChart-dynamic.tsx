@@ -50,10 +50,8 @@ export const ACTIONS = {
 };
 
 const reducer = ( state, action)=>{  
-  console.log('reducer::', state, action);
   switch (action.type) {
     case ACTIONS.SEQUENCE: {
-      console.log('ACTIONS.SEQUENCE', action)
       if(action.payload=='sequence'){ return elements }
       else if(action.payload=='ifelse') { return elements_ifelse }
       else return initElements;
