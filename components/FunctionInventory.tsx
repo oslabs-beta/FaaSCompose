@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Card,
   Button,
@@ -6,28 +7,49 @@ import {
   Tooltip,
   OverlayTrigger,
 } from 'react-bootstrap';
-import functions from '../data/functions.json';
-import { useEffect } from 'react';
+import Link from 'next/Link';
 
 const FunctionInventory = () => {
+  const [currentFuncs, setFuncs] = useState({});
   let funcs = [];
-  functions.map((func) => {
+  useEffect(() => {
+    fetch('/api/functions/read-functions', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFuncs(data);
+      });
+  }, []);
+  Object.keys(currentFuncs).map((func) => {
     funcs.push(
       <OverlayTrigger
         placement="right"
-        overlay={<Tooltip id={func.id}>{func.description}</Tooltip>}
+        overlay={
+          <Tooltip id={currentFuncs[func].id}>
+            {currentFuncs[func].description}
+          </Tooltip>
+        }
       >
-        <ListGroupItem>{func.name}</ListGroupItem>
+        <ListGroupItem>{currentFuncs[func].name}</ListGroupItem>
       </OverlayTrigger>
     );
   });
+
   return (
     <div>
       <Card>
         <Card.Body>
           <Card.Title>Cloud Function Inventory</Card.Title>
           <ListGroup className="list-group-flush">{funcs}</ListGroup>
-          <Button variant="primary">New Function</Button>
+          <Link href="/func-editor">
+            <a>
+              <Button variant="primary">New Function</Button>
+            </a>
+          </Link>
         </Card.Body>
       </Card>
     </div>

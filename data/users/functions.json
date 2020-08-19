@@ -16,5 +16,11 @@
     "name": "failure authenticate",
     "description": "function to authenticate users",
     "definition": "function () { return { message: 'failure' }"
+  },
+  "Hello World": {
+    "name": "Hello World",
+    "id": "749",
+    "description": "prints hello world",
+    "definition": "const helloWorld = () => {\n    console.log('hello world!');\n}"
   }
 }
