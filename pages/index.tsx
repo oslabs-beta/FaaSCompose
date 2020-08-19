@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import {Button, Container, Row, Col, Card} from 'react-bootstrap';
-import BasicFlow from '../components/FlowChart';
+import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
 import FunctionButtons from '../components/FunctionStructureButtons';
 
