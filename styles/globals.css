@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 } */
+
+.btn-primary {
+  background-color: #1985a1;
+}
