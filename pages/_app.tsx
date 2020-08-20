@@ -3,9 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import type { AppProps /*, AppContext */ } from 'next/app';
 
+import { Provider } from 'react-redux';
+import store from '../store/store';
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
