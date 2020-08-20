@@ -8,17 +8,29 @@ import FlowButtons from '../components/FlowStructureButton';
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
 
 import FunctionInventory from '../components/FunctionInventory';
+import Execution from '../components/Execution/Execution';
 
 const Home = (): JSX.Element => {
 
   const [sequence, setSequence]=useState('');
   const [functions, setFunctions]=useState('');
+  const [flowState, setflowState] = useState('');
   const sequenceChange=(el)=>{
     setSequence(el);
     setFunctions('');
   }
   const functionsChange=(el)=>setFunctions(el);
-
+  const onSaveClick = async (flow) => {
+    const res = await fetch(`http://localhost:3000/api/composition/agnosticsave/${flow.name}`, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(flow),
+      });
+     if (res.status == 200) {
+        console.log("Saved Succesfully");
+        setflowState(flow)
+     }    
+  }
   return (
     <div className="App">
       <Container fluid>
@@ -30,7 +42,8 @@ const Home = (): JSX.Element => {
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
           <Col xs={10} md={10} lg={10} >
-            <BasicFlow type={sequence} functionNames={functions} />
+            <BasicFlow type={sequence} functionNames={functions} onSave = {onSaveClick} />
+            <Execution compositionName = { flowState.name }/>
             </Col>
 
           {/* <Col xs={3} md={3} lg={3} style={{ background: '#4C5C68' }}>
