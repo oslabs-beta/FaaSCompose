@@ -39,7 +39,7 @@ const elements_ifelse=[
 ];
 
 export const ACTIONS = {
-  ADD: "ADD",
+  ADD_NODE: "ADD_NODE",
   REMOVE: "REMOVE",
   //MODIFY_LABEL: "MODIFY_LABEL",
   RESET: "RESET",
@@ -70,7 +70,7 @@ const reducer = ( state, action)=>{
       return newState;
       }
 
-    case ACTIONS.ADD: {
+    case ACTIONS.ADD_NODE: {
       return [
         ...state,
         {
@@ -88,22 +88,29 @@ const reducer = ( state, action)=>{
   };
 };
 
+export const combineResult=(flowType, nodes)=>{
+  const tempFunc=nodes.filter((node)=> node.data !== undefined && node.data.label !== 'Start' && node.data.label !== 'End' ? node.data.label : '').map(e=>e.data.label);
+return {type:flowType,func:tempFunc};
+};
+
+
+
 
 const BasicFlow = (props) =>{ 
 
   const [nodes, dispatch] = useReducer(reducer, initElements);
-  const [type, setType] = useState('sequence');
+  const [flowType, setType] = useState('sequence');
   const [functions, setFunctions]= useState();
   const [target, setTarget]=useState('');
 
   useEffect(() => {
     //update in sequence
     setType(()=>{
-      if(type!=props.type){
+      if(flowType!=props.type){
         dispatch({ type: ACTIONS.SEQUENCE, payload:props.type}); 
         return props.type;
       }
-      else if(type==props.type) return type;
+      else if(flowType==props.type) return flowType;
     });
 
     //update functions name
@@ -116,13 +123,13 @@ const BasicFlow = (props) =>{
       }
       else return functions;
     });
-
   }) ;
 
   const onElementClick = (event, element) => setTarget(element.id);
+  
+  const resultFunc=combineResult(flowType, nodes);
 
-
-return (
+  return (
  <ReactFlow 
   elements={nodes} 
   style={{ background: 'white', width: '100%', height: '300px' }} 

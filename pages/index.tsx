@@ -3,14 +3,10 @@ import {Button, Container, Row, Col, Card} from 'react-bootstrap';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
 //import FunctionButtons from '../components/FunctionStructureButtons';
-
-
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
-
 import FunctionInventory from '../components/FunctionInventory';
 
 const Home = (): JSX.Element => {
-
   const [sequence, setSequence]=useState('');
   const [functions, setFunctions]=useState('');
   const sequenceChange=(el)=>{

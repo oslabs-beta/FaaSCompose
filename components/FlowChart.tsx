@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
 import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
