@@ -1,1 +1,1 @@
-{"if":"true"}
+{"name":"demo","type":"ifelse","func":["authenticate","success authenticate","failure authenticate"]}

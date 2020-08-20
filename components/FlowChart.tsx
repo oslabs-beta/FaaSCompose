@@ -1,7 +1,7 @@
-<<<<<<< HEAD
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
 import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
+import { Button } from 'react-bootstrap';
 
 
 
@@ -122,17 +122,17 @@ const BasicFlow = (props) =>{
     });
 
   }) ;
-
   const onElementClick = (event, element) => setTarget(element.id);
 
 
 return (
- <ReactFlow 
-  elements={nodes} 
+  <ReactFlow 
+  elements={nodes}  
   style={{ background: 'white', width: '100%', height: '300px' }} 
   onElementClick={onElementClick}>
     <Background color="#aaa" gap={4} />
-  </ReactFlow>
+  </ReactFlow>  
+
 )
 };
 

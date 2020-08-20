@@ -47,7 +47,18 @@ function ConvertAgnosticCompositionIntoJSCode(compositionName){
     // convert the agnostic composition it into js code    
     let jsContent = "const composer = require('openwhisk-composer'); "
     // if its an "If composition"
-    jsContent +=  getIfComposition(functions['authenticate'],functions['success authenticate'],functions['failure authenticate'])
+    if (agnosticContent.type == 'ifelse'){
+        jsContent +=  getIfComposition(
+            { name: agnosticContent.func[0],
+              definition: functions[agnosticContent.func[0]].definition   
+            },
+            { name: agnosticContent.func[1],
+                definition: functions[agnosticContent.func[1]].definition   
+            },
+            { name: agnosticContent.func[2],
+                definition: functions[agnosticContent.func[2]].definition  
+            });
+    }
     // if its an "sequence composition"
     // TODO: sequence code
     // Save the IBM specific JS into a file for later use

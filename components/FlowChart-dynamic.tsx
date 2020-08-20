@@ -1,6 +1,7 @@
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
 import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
+import { Button } from 'react-bootstrap';
 
 
 
@@ -88,6 +89,10 @@ const reducer = ( state, action)=>{
   };
 };
 
+export const combineResult=(name, flowType, nodes)=>{
+  const tempFunc=nodes.filter((node)=> node.data !== undefined && node.data.label !== 'Start' && node.data.label !== 'End' ? node.data.label : '').map(e=>e.data.label);
+return {name: name, type:flowType,func:tempFunc};
+};
 
 const BasicFlow = (props) =>{ 
 
@@ -118,17 +123,20 @@ const BasicFlow = (props) =>{
     });
 
   }) ;
-
+  const resultFunc = combineResult("demo",type, nodes);
   const onElementClick = (event, element) => setTarget(element.id);
-
+  console.log("result func", resultFunc);
 
 return (
+  <div>    
  <ReactFlow 
   elements={nodes} 
   style={{ background: 'white', width: '100%', height: '300px' }} 
   onElementClick={onElementClick}>
     <Background color="#ccc" gap={3} />
   </ReactFlow>
+  <Button onClick = {()=>{ props.onSave(resultFunc)}}>Save</Button>
+  </div>
 )
 };
 
