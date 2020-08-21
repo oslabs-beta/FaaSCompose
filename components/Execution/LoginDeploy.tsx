@@ -3,6 +3,7 @@ import JSONInput from 'react-json-editor-ajrm/index';
 import locale from 'react-json-editor-ajrm/locale/en';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Markup } from 'interweave';
 import {
   selectUserInput,
   setUserInput,
@@ -35,7 +36,9 @@ const LoginDeploy = (props): JSX.Element => {
         headers: { 'Content-Type': 'application/json' }        
       });
       const deployOutputText = await resDeploy.text(); 
-      setOutputText(loginOutputText + '\n' + deployOutputText);
+      let finalOutput = (loginOutputText + '\n' + deployOutputText);
+      finalOutput = finalOutput.replace(/\n/g, "<br />");
+      setOutputText(finalOutput);
     } catch (error) {      
       // if (error) throw new Error('Error from UserInput', error);
     }
@@ -48,7 +51,7 @@ const LoginDeploy = (props): JSX.Element => {
           Login and Deploy
         </Button>              
       </div>
-      <div>{outputText}</div>
+      <div><Markup content={outputText} /></div>
     </>
   );
 };

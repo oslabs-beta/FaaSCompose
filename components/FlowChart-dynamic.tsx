@@ -1,7 +1,7 @@
 import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
 import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
-import { Button } from 'react-bootstrap';
+import { Button, FormControl, FormLabel,  } from 'react-bootstrap';
 
 
 
@@ -100,6 +100,7 @@ const BasicFlow = (props) =>{
   const [type, setType] = useState('sequence');
   const [functions, setFunctions]= useState();
   const [target, setTarget]=useState('');
+  const [name,setName] = useState('');
 
   useEffect(() => {
     //update in sequence
@@ -123,7 +124,7 @@ const BasicFlow = (props) =>{
     });
 
   }) ;
-  const resultFunc = combineResult("demo",type, nodes);
+  const resultFunc = combineResult(name,type, nodes);
   const onElementClick = (event, element) => setTarget(element.id);
   console.log("result func", resultFunc);
 
@@ -135,7 +136,11 @@ return (
   onElementClick={onElementClick}>
     <Background color="#ccc" gap={3} />
   </ReactFlow>
-  <Button onClick = {()=>{ props.onSave(resultFunc)}}>Save</Button>
+  <div className="d-flex">
+    <FormLabel className="mr-2">Composition Name</FormLabel>
+    <FormControl className="col-sm-3" value = { name }   type="text" onChange={(e) => { setName(e.target.value) }} />
+    <Button className="ml-2" onClick = {()=>{ props.onSave(resultFunc)}}>Save</Button>
+  </div>
   </div>
 )
 };
