@@ -16,5 +16,12 @@ a {
 } */
 
 .btn-primary {
-  background-color: #1985a1;
+  background-color: #1985a1 !important;
+  border-color: #4c5c68 !important;
+}
+
+.btn-outline-primary {
+  background-color: #dcdcdd !important;
+  color: #46494c !important;
+  border-color: #4c5c68 !important;
 }

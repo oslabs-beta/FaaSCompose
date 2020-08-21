@@ -1,15 +1,15 @@
-import Head from 'next/head';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+// import Head from 'next/head';
+import { Container, Row, Col } from 'react-bootstrap';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
 //import FunctionButtons from '../components/FunctionStructureButtons';
 
 import React, {
   useState,
-  useEffect,
-  useReducer,
-  useContext,
-  createContext,
+  // useEffect,
+  // useReducer,
+  // useContext,
+  // createContext,
 } from 'react';
 
 import FunctionInventory from '../components/FunctionInventory';
@@ -64,13 +64,6 @@ const Home = (): JSX.Element => {
             />
             <Execution compositionName={flowState.name} />
           </Col>
-
-          {/* <Col xs={3} md={3} lg={3} style={{ background: '#4C5C68' }}>
-            <FunctionInventory />
-          </Col>
-          <Col xs={9} md={9} lg={9} style={{ background: '#DCDCDD' }}>
-            <BasicFlow />
-          </Col> */}
         </Row>
       </Container>
     </div>
