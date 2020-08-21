@@ -2,6 +2,7 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
+
 //import FunctionButtons from '../components/FunctionStructureButtons';
 
 import React, {
@@ -56,7 +57,7 @@ const Home = (): JSX.Element => {
             />
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
-          <Col xs={9} md={9} lg={9}>
+          <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4">
             <BasicFlow
               type={sequence}
               functionNames={functions}
