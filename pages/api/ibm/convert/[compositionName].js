@@ -58,6 +58,14 @@ function ConvertAgnosticCompositionIntoJSCode(compositionName){
             { name: agnosticContent.func[2],
                 definition: functions[agnosticContent.func[2]].definition  
             });
+    } else if (agnosticContent.type == "sequence") {
+        jsContent +=  getSequenceComposition(
+            { name: agnosticContent.func[0],
+              definition: functions[agnosticContent.func[0]].definition   
+            },
+            { name: agnosticContent.func[1],
+                definition: functions[agnosticContent.func[1]].definition   
+            });
     }
     // if its an "sequence composition"
     // TODO: sequence code

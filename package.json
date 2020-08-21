@@ -52,6 +52,7 @@
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
     "monaco-editor": "^0.20.0",
+    "interweave": "^12.5.0",
     "nanoid": "^3.1.12",
     "next": "9.5.2",
     "openwhisk-composer": "^0.12.0",
