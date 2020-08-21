@@ -33,8 +33,8 @@ const elements_ifelse=[
   { id: 'ifelse-2', data: { label: 'Node 3' }, position: { x: 250, y: 150 }, style: { fontWeight: 400,fontSize: 15, background: '#eee', color: '#333' } },
   { id: 'ifelse-end', data: { label: 'End' }, position: { x: 190, y: 225 }, style: { background: '#333', color: '#fff', border: '1px solid #bbb', width: 70 , padding:5} },
   { id: 'e2-2', source: 'ifelse-start', target: 'ifelse-0', animated: true, },
-  { id: 'e2-3', source: 'ifelse-0', target: 'ifelse-1', animated: false ,type: 'smoothstep', arrowHeadType: 'arrowclosed'},
-  { id: 'e2-4', source: 'ifelse-0', target: 'ifelse-2', animated: false ,type: 'smoothstep', arrowHeadType: 'arrowclosed',  style: { stroke: '#f6ab6c' },},
+  { id: 'e2-3', source: 'ifelse-0', target: 'ifelse-1', animated: false ,type: 'smoothstep', arrowHeadType: 'arrowclosed', label: 'true',},
+  { id: 'e2-4', source: 'ifelse-0', target: 'ifelse-2', animated: false ,type: 'smoothstep', arrowHeadType: 'arrowclosed',  style: { stroke: '#f6ab6c' },label: 'false',},
   { id: 'e2-5', source: 'ifelse-1', target: 'ifelse-end', animated: false ,type: 'smoothstep'},
   { id: 'e2-6', source: 'ifelse-2', target: 'ifelse-end', animated: false ,type: 'smoothstep', style: { stroke: '#f6ab6c' }}
 ];
@@ -124,7 +124,7 @@ const BasicFlow = (props) =>{
 
   }) ;
   const resultFunc = combineResult("demo",type, nodes);
-  const onElementClick = (event, element) => setTarget(element.id);
+  const onElementClick = (event, element) => element.id!=='init-0' ? setTarget(element.id) : '';
   console.log("result func", resultFunc);
 
 return (
