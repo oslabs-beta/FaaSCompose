@@ -35,7 +35,12 @@ const FunctionInventory = (props) => {
   Object.keys(currentFuncs).map((func) => {
     funcs.push(
       <ListGroupItem
-        style={{ cursor: 'pointer' }}
+        style={{
+          cursor: 'pointer',
+          border: '1px solid #28151c',
+          borderRadius: '4px',
+        }}
+        className="mt-2"
         onClick={() => {
           console.log('List Group::', currentFuncs[func].name);
           props.onClick(currentFuncs[func].name);
@@ -64,12 +69,16 @@ const FunctionInventory = (props) => {
 
   return (
     <div>
-      <Card>
+      <Card style={{ background: '#FFF4EC' }}>
         <Card.Body>
           <Card.Title>Cloud Function Inventory</Card.Title>
           <ListGroup className="list-group-flush">{funcs}</ListGroup>
 
-          <Button variant="primary" onClick={props.toggleFuncEditor}>
+          <Button
+            variant="primary"
+            className="mt-4"
+            onClick={props.toggleFuncEditor}
+          >
             New Function
           </Button>
         </Card.Body>

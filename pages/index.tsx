@@ -55,7 +55,7 @@ const Home = (): JSX.Element => {
             xs={3}
             md={3}
             lg={3}
-            style={{ background: '#4c5c68ff', height: '100vh' }}
+            style={{ background: '#134074', height: '100vh' }}
           >
             <FlowButtons onClick={sequenceChange} sequence={sequence} />
             <hr />
