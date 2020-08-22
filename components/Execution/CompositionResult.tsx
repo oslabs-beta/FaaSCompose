@@ -8,7 +8,7 @@ const CompositionResult = (): JSX.Element => {
   const compositionOutput = useSelector(selectCompositionOutput);
 
   return (
-    <div>
+    <div className="mt-2 mb-2">
       <h5>Output</h5>
       <JSONInput
         placeholder={JSON.parse(compositionOutput)}
