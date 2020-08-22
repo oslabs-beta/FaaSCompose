@@ -41,7 +41,7 @@ const FuncEditor = (props): JSX.Element => {
     }).then(function (response) {
       console.log(response);
       setTimeout(function () {
-        router.push('/');
+        props.toggle();
       }, 2000);
     });
   };

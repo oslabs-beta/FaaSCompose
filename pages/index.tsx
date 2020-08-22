@@ -62,11 +62,11 @@ const Home = (): JSX.Element => {
             <FunctionInventory
               onClick={functionsChange}
               functions={functions}
+              toggleFuncEditor={toggleFuncEditor}
             />
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
-          <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4">
-            <Button onClick={toggleFuncEditor}>Open func editor</Button>
+          <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4 main">
             <BasicFlow
               type={sequence}
               functionNames={functions}

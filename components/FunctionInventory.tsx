@@ -7,7 +7,6 @@ import {
   Tooltip,
   OverlayTrigger,
 } from 'react-bootstrap';
-import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -16,7 +15,8 @@ const FunctionInventory = (props) => {
   const [buttons, setButtons] = useState();
 
   let funcs = [];
-  useEffect(() => {
+
+  const getFuncs = () => {
     fetch('/api/functions/read-functions', {
       method: 'GET',
       headers: {
@@ -27,7 +27,11 @@ const FunctionInventory = (props) => {
       .then((data) => {
         setFuncs(data);
       });
+  };
+  useEffect(() => {
+    getFuncs();
   }, []);
+
   Object.keys(currentFuncs).map((func) => {
     funcs.push(
       <ListGroupItem
@@ -64,11 +68,10 @@ const FunctionInventory = (props) => {
         <Card.Body>
           <Card.Title>Cloud Function Inventory</Card.Title>
           <ListGroup className="list-group-flush">{funcs}</ListGroup>
-          <Link href="/func-editor">
-            <a>
-              <Button variant="primary">New Function</Button>
-            </a>
-          </Link>
+
+          <Button variant="primary" onClick={props.toggleFuncEditor}>
+            New Function
+          </Button>
         </Card.Body>
       </Card>
     </div>
