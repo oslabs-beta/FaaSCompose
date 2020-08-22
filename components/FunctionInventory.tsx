@@ -8,6 +8,8 @@ import {
   OverlayTrigger,
 } from 'react-bootstrap';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const FunctionInventory = (props) => {
   const [currentFuncs, setFuncs] = useState({});
@@ -28,23 +30,31 @@ const FunctionInventory = (props) => {
   }, []);
   Object.keys(currentFuncs).map((func) => {
     funcs.push(
-      <OverlayTrigger
-        placement="right"
-        overlay={
-          <Tooltip id={currentFuncs[func].id}>
-            {currentFuncs[func].description}
-          </Tooltip>
-        }
+      <ListGroupItem
+        style={{ cursor: 'pointer' }}
+        onClick={() => {
+          console.log('List Group::', currentFuncs[func].name);
+          props.onClick(currentFuncs[func].name);
+        }}
       >
-        <ListGroupItem
-          onClick={() => {
-            console.log('List Group::', currentFuncs[func].name);
-            props.onClick(currentFuncs[func].name);
-          }}
+        <OverlayTrigger
+          placement="right"
+          overlay={
+            <Tooltip id={currentFuncs[func].id}>
+              {currentFuncs[func].description}
+            </Tooltip>
+          }
         >
-          {currentFuncs[func].name}
-        </ListGroupItem>
-      </OverlayTrigger>
+          <span>{currentFuncs[func].name}</span>
+        </OverlayTrigger>
+        <FontAwesomeIcon
+          onClick={() => {
+            alert('Edit clicked!');
+          }}
+          icon={faEdit}
+          className="icon float-right"
+        />
+      </ListGroupItem>
     );
   });
 

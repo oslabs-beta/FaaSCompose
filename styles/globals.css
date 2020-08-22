@@ -14,3 +14,26 @@ a {
 * {
   box-sizing: border-box;
 } */
+
+#react-flow {
+  margin-top: 30px !important;
+}
+.btn-primary {
+  background-color: #1985a1 !important;
+  border-color: #4c5c68 !important;
+}
+
+.btn-outline-primary {
+  background-color: #dcdcdd !important;
+  color: #46494c !important;
+  border-color: #4c5c68 !important;
+}
+
+.icon {
+  color: #46494c;
+}
+
+.icon:hover {
+  color: #1985a1;
+  font-weight: 800;
+}
