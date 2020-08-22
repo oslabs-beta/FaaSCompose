@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const FunctionInventory = (props) => {
   const [currentFuncs, setFuncs] = useState({});
-  const [buttons, setButtons]=useState();
+  const [buttons, setButtons] = useState();
 
   let funcs = [];
   useEffect(() => {
@@ -37,11 +37,13 @@ const FunctionInventory = (props) => {
         }
       >
         <ListGroupItem
-        onClick={()=> {
-          console.log('List Group::', currentFuncs[func].name);
-          props.onClick(currentFuncs[func].name)}
-        }
-        >{currentFuncs[func].name}</ListGroupItem>
+          onClick={() => {
+            console.log('List Group::', currentFuncs[func].name);
+            props.onClick(currentFuncs[func].name);
+          }}
+        >
+          {currentFuncs[func].name}
+        </ListGroupItem>
       </OverlayTrigger>
     );
   });

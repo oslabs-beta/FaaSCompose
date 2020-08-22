@@ -8,7 +8,7 @@ const PlatformSpecific = (): JSX.Element => {
   const composition = useSelector(selectComposition);
 
   return (
-    <div>
+    <div className="mt-4">
       <h5>Platform Specific</h5>
       <JSONInput
         placeholder={JSON.parse(composition)} // data to display
@@ -17,7 +17,9 @@ const PlatformSpecific = (): JSX.Element => {
         colors={{
           string: '#DAA520', // overrides theme colors with whatever color value you want
         }}
-        height="500px"
+        å
+        height="300px"
+        width="100%"
         viewOnly={true}
         confirmGood={false}
       />

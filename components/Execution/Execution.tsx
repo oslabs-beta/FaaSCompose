@@ -6,11 +6,12 @@ import LoginDeploy from './LoginDeploy';
 
 const Execution = (props): JSX.Element => (
   <>
-    <h3>Execution</h3>
-    <CloudProvidersDropdown compositionName = { props.compositionName } />
+    <hr />
+    <h5>Execution</h5>
+    <CloudProvidersDropdown compositionName={props.compositionName} />
     <PlatformSpecific />
-    <LoginDeploy compositionName = { props.compositionName }/>
-    <UserInput compositionName = { props.compositionName }/>
+    <LoginDeploy compositionName={props.compositionName} />
+    <UserInput compositionName={props.compositionName} />
     <CompositionResult />
   </>
 );

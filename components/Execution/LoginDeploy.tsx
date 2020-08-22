@@ -13,7 +13,7 @@ import {
 const LoginDeploy = (props): JSX.Element => {
   const dispatch = useDispatch();
   const userInput = useSelector(selectUserInput);
-  const [outputText, setOutputText]= useState('');
+  const [outputText, setOutputText] = useState('');
   let inputFromForm: string;
 
   const dispatchSetUserInput = (payload) => dispatch(setUserInput(payload));
@@ -24,34 +24,40 @@ const LoginDeploy = (props): JSX.Element => {
     inputFromForm = formInput.json;
   };
 
-  const handleClick = async () => {    
+  const handleClick = async () => {
+    setOutputText('loading...');
     try {
       const resLogin = await fetch(`http://localhost:3000/api/ibm/login`, {
         method: 'post',
-        headers: { 'Content-Type': 'application/json' }        
+        headers: { 'Content-Type': 'application/json' },
       });
-      const loginOutputText = await resLogin.text();  
-      const resDeploy = await fetch(`http://localhost:3000/api/ibm/deploy/${props.compositionName}`, {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' }        
-      });
-      const deployOutputText = await resDeploy.text(); 
-      let finalOutput = (loginOutputText + '\n' + deployOutputText);
-      finalOutput = finalOutput.replace(/\n/g, "<br />");
+      const loginOutputText = await resLogin.text();
+      const resDeploy = await fetch(
+        `http://localhost:3000/api/ibm/deploy/${props.compositionName}`,
+        {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+      const deployOutputText = await resDeploy.text();
+      let finalOutput = loginOutputText + '\n' + deployOutputText;
+      finalOutput = finalOutput.replace(/\n/g, '<br />');
       setOutputText(finalOutput);
-    } catch (error) {      
+    } catch (error) {
       // if (error) throw new Error('Error from UserInput', error);
     }
   };
 
   return (
-    <>      
-      <div className="inline">        
+    <>
+      <div className="mt-2 mb-2">
         <Button variant="outline-primary" onClick={handleClick}>
           Login and Deploy
-        </Button>              
+        </Button>
       </div>
-      <div><Markup content={outputText} /></div>
+      <div>
+        <Markup content={outputText} />
+      </div>
     </>
   );
 };

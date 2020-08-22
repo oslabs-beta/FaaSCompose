@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import ReactFlow, { Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
-import { Button, FormControl, FormLabel,  } from 'react-bootstrap';
+import { Button, FormControl, FormLabel } from 'react-bootstrap';
 
 const initElements = [
   {
@@ -238,9 +238,9 @@ export const combineResult = (name, flowType, nodes) => {
 const BasicFlow = (props) => {
   const [nodes, dispatch] = useReducer(reducer, initElements);
   const [type, setType] = useState('sequence');
-  const [functions, setFunctions]= useState();
-  const [target, setTarget]=useState('');
-  const [name,setName] = useState('');
+  const [functions, setFunctions] = useState();
+  const [target, setTarget] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     //update in sequence
@@ -261,28 +261,41 @@ const BasicFlow = (props) => {
         return props.functionNames;
       } else return functions;
     });
-  }) ;
-  const resultFunc = combineResult(name,type, nodes);
+  });
+  const resultFunc = combineResult(name, type, nodes);
   const onElementClick = (event, element) => setTarget(element.id);
-  console.log("result func", resultFunc);
+  console.log('result func', resultFunc);
 
-return (
-  <div>    
- <ReactFlow 
-  elements={nodes} 
-  style={{ background: 'white', width: '100%', height: '300px' }} 
-  onElementClick={onElementClick}>
-    <Background color="#ccc" gap={3} />
-  </ReactFlow>
-  <div className="d-flex">
-    <FormLabel className="mr-2">Composition Name</FormLabel>
-    <FormControl className="col-sm-3" value = { name }   type="text" onChange={(e) => { setName(e.target.value) }} />
-    <Button className="ml-2" onClick = {
-      ()=>{ props.onSave(resultFunc)}
-      }>Save</Button>
-  </div>
-  </div>
-)
+  return (
+    <div>
+      <ReactFlow
+        elements={nodes}
+        style={{ background: 'white', width: '100%', height: '300px' }}
+        onElementClick={onElementClick}
+      >
+        <Background color="#ccc" gap={3} />
+      </ReactFlow>
+      <div className="form-inline mt-4 mb-4">
+        <FormLabel className="mr-2 d-block">Composition Name</FormLabel>
+        <FormControl
+          className="col-sm-3"
+          value={name}
+          type="text"
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
+        <Button
+          className="ml-2"
+          onClick={() => {
+            props.onSave(resultFunc);
+          }}
+        >
+          Save
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 export default BasicFlow;

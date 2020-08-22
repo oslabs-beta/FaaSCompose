@@ -5,11 +5,12 @@ import type { AppProps /*, AppContext */ } from 'next/app';
 
 import { Provider } from 'react-redux';
 import store from '../store/store';
-
+import NavBar from '../components/NavBar';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
+      <NavBar />
       <Component {...pageProps} />
     </Provider>
   );
