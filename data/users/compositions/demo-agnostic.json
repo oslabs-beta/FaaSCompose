@@ -1,5 +1,5 @@
 {
   "name": "demo",
-  "type": "ifelse",
-  "func": ["authenticate", "success authenticate", "Hello World"]
+  "type": "sequence",
+  "func": ["success authenticate", "Hello World"]
 }
