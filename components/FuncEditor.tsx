@@ -1,11 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Container, Button, Form } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import Editor from '@monaco-editor/react';
-// Import contents of functions.json
-// import functions from '../data/users/functions.json';
 
-const FuncEditor = (): JSX.Element => {
+const FuncEditor = (props): JSX.Element => {
   const router = useRouter();
   const [isEditorReady, setIsEditorReady] = useState(false);
 
@@ -19,13 +17,7 @@ const FuncEditor = (): JSX.Element => {
 
   // Add function method, runs when "Add Function" button pressed
   const addFunc = () => {
-    // Set currentFuncs to current contents of functions file (object)
-    // const currentFuncs = functions;
-    // Pick a random id (I know there are better ways to do this, it's fine
-    // for now)
     const id = String(Math.floor(Math.random() * 1000));
-    // get name of function from form (HTMLTextAreaElement necessary for
-    // TS to not complain)
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;
     // get description of function from form
     const description = (document.getElementById(
@@ -40,11 +32,6 @@ const FuncEditor = (): JSX.Element => {
       definition: valueGetter.current(),
     };
 
-    // Push new function onto end of currentFuncs,
-    // combining it with already existing functions
-    // currentFuncs[name] = newFuncObj;
-    // There is a problem in here... Trying to fetch from the add-function api
-    // and pass currentFuncs (which should be all functions + new one) to backend
     fetch('/api/functions/upsert-function', {
       method: 'post',
       headers: {
@@ -60,7 +47,7 @@ const FuncEditor = (): JSX.Element => {
   };
 
   return (
-    <Container fluid>
+    <Modal show={props.show}>
       <Editor
         height="300px"
         width="450px"
@@ -82,8 +69,9 @@ const FuncEditor = (): JSX.Element => {
         <Button variant="primary" onClick={addFunc}>
           Add Function
         </Button>
+        <Button onClick={props.toggle}>Close</Button>
       </Form>
-    </Container>
+    </Modal>
   );
 };
 

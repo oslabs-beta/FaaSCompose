@@ -1,5 +1,5 @@
 // import Head from 'next/head';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
 
@@ -14,16 +14,24 @@ import React, {
 } from 'react';
 
 import FunctionInventory from '../components/FunctionInventory';
+import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
 
 const Home = (): JSX.Element => {
   const [sequence, setSequence] = useState('');
   const [functions, setFunctions] = useState('');
+  const [showEditor, setShowEditor] = useState(false);
+
   const [flowState, setflowState] = useState('');
   const sequenceChange = (el) => {
     setSequence(el);
     setFunctions('');
   };
+
+  const toggleFuncEditor = () => {
+    setShowEditor(!showEditor);
+  };
+
   const functionsChange = (el) => setFunctions(el);
   const onSaveClick = async (flow) => {
     const res = await fetch(
@@ -58,6 +66,7 @@ const Home = (): JSX.Element => {
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
           <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4">
+            <Button onClick={toggleFuncEditor}>Open func editor</Button>
             <BasicFlow
               type={sequence}
               functionNames={functions}
@@ -65,6 +74,7 @@ const Home = (): JSX.Element => {
             />
             <Execution compositionName={flowState.name} />
           </Col>
+          <FuncEditor show={showEditor} toggle={toggleFuncEditor} />
         </Row>
       </Container>
     </div>
