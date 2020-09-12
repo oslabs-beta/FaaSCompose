@@ -47,7 +47,6 @@ const UserInput = (props): JSX.Element => {
   return (
     <>
       <h5>Input</h5>
-      <span>{userInput}</span>
       <div>
         <JSONInput
           placeholder={{ password: '' }} // data to display
