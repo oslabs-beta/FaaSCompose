@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
+const compositionsDirectory = path.join(process.cwd(), 'data/users/compositions')
+
 export const config = {
     api: {
       bodyParser: {
@@ -20,9 +22,8 @@ export default (req, res) => {
     if (!compositionName){
         res.statusCode = 500
         return res.send('Composition Save: Missing Composition Name');        
-    }
-    const directory = path.join(process.cwd(), 'data/users/')
-    const agnosticfilePath = path.join(directory, `${compositionName}-agnostic.json`)
+    }    
+    const agnosticfilePath = path.join(compositionsDirectory, `${compositionName}-agnostic.json`)
     fs.writeFile(agnosticfilePath, JSON.stringify(req.body), function (err) {
         if (err) {
             console.log("Composition Save: ", err);

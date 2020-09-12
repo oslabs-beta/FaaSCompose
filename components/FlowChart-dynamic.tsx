@@ -1,13 +1,7 @@
-import React, {
-  useState,
-  useEffect,
-  useReducer,
-  useContext,
-  createContext,
-} from 'react';
-import ReactFlow, { useStoreState, Background } from 'react-flow-renderer';
+import React, { useState, useEffect, useReducer } from 'react';
+import ReactFlow, { Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
-import { Button } from 'react-bootstrap';
+import { Button, FormControl, FormLabel } from 'react-bootstrap';
 
 const initElements = [
   {
@@ -150,6 +144,7 @@ const elements_ifelse = [
     animated: false,
     type: 'smoothstep',
     arrowHeadType: 'arrowclosed',
+    label: 'true',
   },
   {
     id: 'e2-4',
@@ -159,6 +154,7 @@ const elements_ifelse = [
     type: 'smoothstep',
     arrowHeadType: 'arrowclosed',
     style: { stroke: '#f6ab6c' },
+    label: 'false',
   },
   {
     id: 'e2-5',
@@ -188,10 +184,8 @@ export const ACTIONS = {
 };
 
 const reducer = (state, action) => {
-  console.log('reducer::', state, action);
   switch (action.type) {
     case ACTIONS.SEQUENCE: {
-      console.log('ACTIONS.SEQUENCE', action);
       if (action.payload == 'sequence') {
         return elements;
       } else if (action.payload == 'ifelse') {
@@ -202,7 +196,7 @@ const reducer = (state, action) => {
       let newState = state.map((node) => {
         if (node.id == action.payload.target) {
           node.data = { label: action.payload.functionNames };
-          node.style = { background: '#4C5C68' };
+          node.style = { background: '#8DA9C4' };
         }
         return node;
       });
@@ -228,11 +222,25 @@ const reducer = (state, action) => {
   }
 };
 
+export const combineResult = (name, flowType, nodes) => {
+  const tempFunc = nodes
+    .filter((node) =>
+      node.data !== undefined &&
+      node.data.label !== 'Start' &&
+      node.data.label !== 'End'
+        ? node.data.label
+        : ''
+    )
+    .map((e) => e.data.label);
+  return { name: name, type: flowType, func: tempFunc };
+};
+
 const BasicFlow = (props) => {
   const [nodes, dispatch] = useReducer(reducer, initElements);
   const [type, setType] = useState('sequence');
   const [functions, setFunctions] = useState();
   const [target, setTarget] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     //update in sequence
@@ -254,19 +262,39 @@ const BasicFlow = (props) => {
       } else return functions;
     });
   });
+  const resultFunc = combineResult(name, type, nodes);
   const onElementClick = (event, element) => setTarget(element.id);
+  console.log('result func', resultFunc);
 
   return (
-    <ReactFlow
-      elements={nodes}
-      style={{
-        width: '100%',
-        height: '300px',
-      }}
-      onElementClick={onElementClick}
-    >
-      <Background color="#aaa" gap={4} />
-    </ReactFlow>
+    <div>
+      <ReactFlow
+        elements={nodes}
+        style={{ background: 'white', width: '100%', height: '300px' }}
+        onElementClick={onElementClick}
+      >
+        <Background color="#ccc" gap={3} />
+      </ReactFlow>
+      <div className="form-inline mt-4 mb-4">
+        <FormLabel className="mr-2 d-block">Composition Name</FormLabel>
+        <FormControl
+          className="col-sm-3"
+          value={name}
+          type="text"
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
+        <Button
+          className="ml-2"
+          onClick={() => {
+            props.onSave(resultFunc);
+          }}
+        >
+          Save
+        </Button>
+      </div>
+    </div>
   );
 };
 
