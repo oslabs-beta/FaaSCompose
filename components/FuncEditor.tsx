@@ -1,10 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { Button, Form, Modal } from 'react-bootstrap';
 import Editor from '@monaco-editor/react';
 
 const FuncEditor = (props): JSX.Element => {
-  const router = useRouter();
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   // This is to get value of text in editor
@@ -42,35 +40,46 @@ const FuncEditor = (props): JSX.Element => {
       console.log(response);
       setTimeout(function () {
         props.toggle();
-      }, 2000);
+      }, 1000);
     });
   };
 
   return (
     <Modal show={props.show}>
-      <Editor
-        height="300px"
-        width="450px"
-        language="javascript"
-        value={'// write your function here'}
-        theme="dark"
-        editorDidMount={handleEditorDidMount}
-      />
-      <Form>
-        <Form.Label>Function Name:</Form.Label>
-        <Form.Control type="text" placeholder="Name" id="name"></Form.Control>
-        <Form.Label>Function Description:</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Description"
-          id="description"
-        ></Form.Control>
+      <Modal.Header>
+        <h5>Function Editor</h5>
+      </Modal.Header>
+      <Modal.Body>
+        <Editor
+          height="300px"
+          width="450px"
+          language="javascript"
+          value={'// write your function here'}
+          theme="dark"
+          editorDidMount={handleEditorDidMount}
+        />
+        <Form className="mt-4">
+          <Form.Label>Function Name:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder={props.funcToEdit.name}
+            id="name"
+          ></Form.Control>
+          <Form.Label>Function Description:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder={props.funcToEdit.description}
+            id="description"
+          ></Form.Control>
 
-        <Button variant="primary" onClick={addFunc}>
-          Add Function
-        </Button>
-        <Button onClick={props.toggle}>Close</Button>
-      </Form>
+          <Button variant="primary" className="mt-3 mr-3" onClick={addFunc}>
+            Add Function
+          </Button>
+          <Button onClick={props.toggle} className="mt-3 mr-3">
+            Close
+          </Button>
+        </Form>
+      </Modal.Body>
     </Modal>
   );
 };
