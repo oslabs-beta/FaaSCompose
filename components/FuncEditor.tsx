@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
@@ -7,6 +7,7 @@ import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
 
 const FuncEditor = (props): JSX.Element => {
   const [isEditorReady, setIsEditorReady] = useState(false);
+  const dispatch = useDispatch();
   const editorView = useSelector(selectShow);
 
   // This is to get value of text in editor
@@ -16,6 +17,10 @@ const FuncEditor = (props): JSX.Element => {
     setIsEditorReady(true);
     valueGetter.current = _valueGetter;
   };
+
+  function dispatchToggleFuncEditor() {
+    dispatch(toggleFuncEditor());
+  }
 
   // Add function method, runs when "Add Function" button pressed
   const addFunc = () => {
@@ -43,7 +48,7 @@ const FuncEditor = (props): JSX.Element => {
     }).then(function (response) {
       console.log(response);
       setTimeout(function () {
-        props.toggle();
+        dispatchToggleFuncEditor();
       }, 1000);
     });
   };
@@ -52,7 +57,7 @@ const FuncEditor = (props): JSX.Element => {
     <Modal show={editorView}>
       <Modal.Header>
         <h5>Function Editor</h5>
-        {console.log(editorView)}
+        {console.log('editorView:', editorView)}
       </Modal.Header>
       <Modal.Body>
         <Editor
@@ -80,7 +85,7 @@ const FuncEditor = (props): JSX.Element => {
           <Button variant="primary" className="mt-3 mr-3" onClick={addFunc}>
             Add Function
           </Button>
-          <Button onClick={props.toggle} className="mt-3 mr-3">
+          <Button onClick={dispatchToggleFuncEditor} className="mt-3 mr-3">
             Close
           </Button>
         </Form>

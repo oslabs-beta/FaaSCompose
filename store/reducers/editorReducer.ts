@@ -12,7 +12,7 @@ const editorSlice = createSlice({
   },
 });
 
-export const selectShow = (state): boolean => state.showEditor;
+export const selectShow = (state): boolean => state.editor.showEditor;
 
 export const { toggleFuncEditor } = editorSlice.actions;
 
