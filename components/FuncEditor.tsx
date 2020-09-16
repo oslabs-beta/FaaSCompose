@@ -1,9 +1,13 @@
 import { useRef, useState, useEffect } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
+
+import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
 
 const FuncEditor = (props): JSX.Element => {
   const [isEditorReady, setIsEditorReady] = useState(false);
+  const editorView = useSelector(selectShow);
 
   // This is to get value of text in editor
   const valueGetter = useRef();
@@ -45,9 +49,10 @@ const FuncEditor = (props): JSX.Element => {
   };
 
   return (
-    <Modal show={props.show}>
+    <Modal show={editorView}>
       <Modal.Header>
         <h5>Function Editor</h5>
+        {console.log(editorView)}
       </Modal.Header>
       <Modal.Body>
         <Editor

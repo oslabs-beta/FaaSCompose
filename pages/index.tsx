@@ -6,12 +6,15 @@ import FlowButtons from '../components/FlowStructureButton';
 //import FunctionButtons from '../components/FunctionStructureButtons';
 
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FunctionInventory from '../components/FunctionInventory';
 import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
+import { toggleFuncEditor } from '../store/reducers/editorReducer';
 
 const Home = (): JSX.Element => {
+  const dispatch = useDispatch;
   const [sequence, setSequence] = useState('');
   const [functions, setFunctions] = useState('');
   const [showEditor, setShowEditor] = useState(false);
@@ -29,9 +32,12 @@ const Home = (): JSX.Element => {
     setFunctions('');
   };
 
-  const toggleFuncEditor = () => {
-    setShowEditor(!showEditor);
-  };
+  // function dispatchToggleFuncEditor() {
+  //   dispatch(toggleFuncEditor());
+  // }
+  // const toggleFuncEditor = () => {
+  //   setShowEditor(!showEditor);
+  // };
 
   const functionsChange = (el) => setFunctions(el);
   const onSaveClick = async (flow) => {
@@ -63,7 +69,7 @@ const Home = (): JSX.Element => {
             <FunctionInventory
               onClick={functionsChange}
               functions={functions}
-              toggleFuncEditor={toggleFuncEditor}
+              // toggleFuncEditor={toggleFuncEditor}
             />
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
@@ -78,7 +84,7 @@ const Home = (): JSX.Element => {
           <FuncEditor
             show={showEditor}
             funcToEdit={funcToEdit}
-            toggle={toggleFuncEditor}
+            // toggle={toggleFuncEditor}
           />
         </Row>
       </Container>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Card,
   Button,
@@ -10,11 +11,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
+import { toggleFuncEditor } from '../store/reducers/editorReducer';
+
 const FunctionInventory = (props) => {
+  const dispatch = useDispatch();
   const [currentFuncs, setFuncs] = useState({});
-  const [buttons, setButtons] = useState();
 
   let funcs = [];
+
+  function dispatchToggleFuncEditor() {
+    dispatch(toggleFuncEditor());
+  }
 
   const getFuncs = () => {
     fetch('/api/functions/read-functions', {
@@ -77,7 +84,7 @@ const FunctionInventory = (props) => {
           <Button
             variant="primary"
             className="mt-4"
-            onClick={props.toggleFuncEditor}
+            onClick={dispatchToggleFuncEditor}
           >
             New Function
           </Button>
