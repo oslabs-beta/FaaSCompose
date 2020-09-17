@@ -1,9 +1,7 @@
 // import Head from 'next/head';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
-
-//import FunctionButtons from '../components/FunctionStructureButtons';
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +11,6 @@ import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
 
 const Home = (): JSX.Element => {
-  const dispatch = useDispatch;
   const [sequence, setSequence] = useState('');
   const [functions, setFunctions] = useState('');
 

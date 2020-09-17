@@ -17,7 +17,7 @@ import { setFuncs, selectFuncs } from '../store/reducers/functionsReducer';
 const FunctionInventory = (props) => {
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
-  // const [currentFuncs, setFuncs] = useState({});
+
   let funcs = [];
 
   function dispatchToggleFuncEditor() {
@@ -38,7 +38,7 @@ const FunctionInventory = (props) => {
   };
   useEffect(() => {
     getFuncs();
-  }, []);
+  }, [getFuncs]);
 
   Object.keys(currentFuncs).map((func) => {
     funcs.push(
