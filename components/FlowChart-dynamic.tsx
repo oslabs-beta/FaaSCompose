@@ -3,6 +3,16 @@ import ReactFlow, { Background } from 'react-flow-renderer';
 import { nanoid } from 'nanoid';
 import { Button, FormControl, FormLabel } from 'react-bootstrap';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  setCompositionName,
+  selectCompositionName,
+} from '../store/reducers/executionReducer';
+
+import FlowName from './FlowName';
+import LoginDeploy from './Execution/LoginDeploy';
+
 const initElements = [
   {
     id: 'init-start',
@@ -240,7 +250,9 @@ const BasicFlow = (props) => {
   const [type, setType] = useState('sequence');
   const [functions, setFunctions] = useState();
   const [target, setTarget] = useState('');
-  const [name, setName] = useState('');
+
+  const reduxDispatch = useDispatch();
+  const compositionName = useSelector(selectCompositionName);
 
   useEffect(() => {
     //update in sequence
@@ -262,8 +274,13 @@ const BasicFlow = (props) => {
       } else return functions;
     });
   });
-  const resultFunc = combineResult(name, type, nodes);
+
+  const resultFunc = combineResult(compositionName, type, nodes);
   const onElementClick = (event, element) => setTarget(element.id);
+
+  function changeCompositionName(name) {
+    reduxDispatch(setCompositionName(name));
+  }
   console.log('result func', resultFunc);
 
   return (
@@ -275,25 +292,16 @@ const BasicFlow = (props) => {
       >
         <Background color="#ccc" gap={3} />
       </ReactFlow>
-      <div className="form-inline mt-4 mb-4">
-        <FormLabel className="mr-2 d-block">Composition Name</FormLabel>
-        <FormControl
-          className="col-sm-3"
-          value={name}
-          type="text"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        <Button
-          className="ml-2"
-          onClick={() => {
-            props.onSave(resultFunc);
-          }}
-        >
-          Save
-        </Button>
-      </div>
+      <FlowName
+        onSave={() => {
+          props.onSave(resultFunc);
+        }}
+        onChange={(name) => {
+          console.log('onchange ', name);
+          changeCompositionName(name);
+        }}
+        compositionName={compositionName}
+      />
     </div>
   );
 };
