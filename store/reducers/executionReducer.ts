@@ -36,12 +36,9 @@ const executionSlice = createSlice({
   },
 });
 
-export const selectComposition = (state: GlobalState): string =>
-  state.execution.composition;
-export const selectUserInput = (state: GlobalState): string =>
-  state.execution.input;
-export const selectCompositionOutput = (state: GlobalState): string =>
-  state.execution.output;
+export const selectComposition = (state: GlobalState): string => state.execution.composition;
+export const selectUserInput = (state: GlobalState): string => state.execution.input;
+export const selectCompositionOutput = (state: GlobalState): string => state.execution.output;
 
 export const {
   setComposition,

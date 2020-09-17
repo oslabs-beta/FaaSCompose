@@ -32,9 +32,9 @@ const FuncEditor = (props): JSX.Element => {
     ) as HTMLTextAreaElement).value;
     // Create object to hold new function with all values set
     const newFuncObj = {
-      name: name,
-      id: id,
-      description: description,
+      name,
+      id,
+      description,
       // This gets the value from the Editor
       definition: valueGetter.current(),
     };
@@ -45,9 +45,9 @@ const FuncEditor = (props): JSX.Element => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newFuncObj),
-    }).then(function (response) {
-      console.log(response);
-      setTimeout(function () {
+    }).then((response) => {
+      // console.log(response);
+      setTimeout(() => {
         dispatchToggleFuncEditor();
       }, 1000);
     });

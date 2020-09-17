@@ -1,10 +1,9 @@
 // import Head from 'next/head';
 import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
-
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import FunctionInventory from '../components/FunctionInventory';
 import FuncEditor from '../components/FuncEditor';
@@ -37,7 +36,7 @@ const Home = (): JSX.Element => {
         body: JSON.stringify(flow),
       }
     );
-    if (res.status == 200) {
+    if (res.status === 200) {
       console.log('Saved Succesfully');
       setflowState(flow);
     }

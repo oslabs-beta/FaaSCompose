@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import flowStructure from '../data/flowStructures.json';
 
 const FlowButtons = (props): JSX.Element => {
@@ -14,10 +14,10 @@ const FlowButtons = (props): JSX.Element => {
           key={buttons[button].id}
           variant="secondary"
           size="lg"
-          variant="outline-light"
+          // variant="outline-light"
           block
           onClick={() => props.onClick(button)}
-          active={button == props.sequence ? true : false}
+          active={button === props.sequence}
         >
           {buttons[button].display}
         </Button>

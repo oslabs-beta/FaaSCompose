@@ -18,7 +18,7 @@ const FunctionInventory = (props) => {
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
 
-  let funcs = [];
+  const funcs = [];
 
   function dispatchToggleFuncEditor() {
     dispatch(toggleFuncEditor());
@@ -71,7 +71,7 @@ const FunctionInventory = (props) => {
           icon={faEdit}
           className="icon float-right"
         />
-      </ListGroupItem>
+      </ListGroupItem>,
     );
   });
 

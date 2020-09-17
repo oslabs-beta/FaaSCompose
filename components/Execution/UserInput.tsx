@@ -15,8 +15,7 @@ const UserInput = (props): JSX.Element => {
   let inputFromForm: string;
 
   const dispatchSetUserInput = (payload) => dispatch(setUserInput(payload));
-  const dispatchSetCompositionOutput = (payload) =>
-    dispatch(setCompositionOutput(payload));
+  const dispatchSetCompositionOutput = (payload) => dispatch(setCompositionOutput(payload));
 
   const handleInputChange = (formInput) => {
     inputFromForm = formInput.json;
@@ -34,7 +33,7 @@ const UserInput = (props): JSX.Element => {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: inputFromForm,
-        }
+        },
       );
       const outputJSON = await res.json();
       dispatchSetCompositionOutput(JSON.stringify(outputJSON));

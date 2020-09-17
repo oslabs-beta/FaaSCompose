@@ -1,1 +1,1 @@
-const composer = require('openwhisk-composer'); 
+const composer = require('openwhisk-composer');
