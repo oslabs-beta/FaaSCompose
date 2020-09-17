@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   Button,
@@ -12,11 +12,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import { toggleFuncEditor } from '../store/reducers/editorReducer';
+import { setFuncs, selectFuncs } from '../store/reducers/functionsReducer';
 
 const FunctionInventory = (props) => {
   const dispatch = useDispatch();
-  const [currentFuncs, setFuncs] = useState({});
-
+  const currentFuncs = useSelector(selectFuncs);
+  // const [currentFuncs, setFuncs] = useState({});
   let funcs = [];
 
   function dispatchToggleFuncEditor() {
@@ -32,7 +33,7 @@ const FunctionInventory = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFuncs(data);
+        dispatch(setFuncs(data));
       });
   };
   useEffect(() => {

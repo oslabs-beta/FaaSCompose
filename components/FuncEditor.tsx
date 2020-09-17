@@ -57,7 +57,6 @@ const FuncEditor = (props): JSX.Element => {
     <Modal show={editorView}>
       <Modal.Header>
         <h5>Function Editor</h5>
-        {console.log('editorView:', editorView)}
       </Modal.Header>
       <Modal.Body>
         <Editor

@@ -11,13 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import FunctionInventory from '../components/FunctionInventory';
 import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
-import { toggleFuncEditor } from '../store/reducers/editorReducer';
 
 const Home = (): JSX.Element => {
   const dispatch = useDispatch;
   const [sequence, setSequence] = useState('');
   const [functions, setFunctions] = useState('');
-  const [showEditor, setShowEditor] = useState(false);
 
   const [funcToEdit, setFuncToEdit] = useState({
     name: 'Name',
@@ -31,13 +29,6 @@ const Home = (): JSX.Element => {
     setSequence(el);
     setFunctions('');
   };
-
-  // function dispatchToggleFuncEditor() {
-  //   dispatch(toggleFuncEditor());
-  // }
-  // const toggleFuncEditor = () => {
-  //   setShowEditor(!showEditor);
-  // };
 
   const functionsChange = (el) => setFunctions(el);
   const onSaveClick = async (flow) => {
@@ -81,11 +72,7 @@ const Home = (): JSX.Element => {
             />
             <Execution compositionName={flowState.name} />
           </Col>
-          <FuncEditor
-            show={showEditor}
-            funcToEdit={funcToEdit}
-            // toggle={toggleFuncEditor}
-          />
+          <FuncEditor funcToEdit={funcToEdit} />
         </Row>
       </Container>
     </div>
