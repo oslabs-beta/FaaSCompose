@@ -10,8 +10,8 @@ import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
 
 const Home = (): JSX.Element => {
-  const [sequence, setSequence] = useState('');
-  const [functions, setFunctions] = useState('');
+  //const [sequence, setSequence] = useState('');
+  //const [functions, setFunctions] = useState('');
 
   // const [funcToEdit, setFuncToEdit] = useState({
   //   name: 'Name',
@@ -22,8 +22,8 @@ const Home = (): JSX.Element => {
 
   const [flowState, setflowState] = useState('');
   const sequenceChange = (el) => {
-    setSequence(el);
-    setFunctions('');
+    //setSequence(el);
+    //setFunctions('');
   };
 
   const functionsChange = (el) => setFunctions(el);
@@ -51,7 +51,7 @@ const Home = (): JSX.Element => {
             lg={3}
             style={{ background: '#134074', height: '100vh' }}
           >
-            <FlowButtons onClick={sequenceChange} sequence={sequence} />
+            <FlowButtons />
             <hr />
             <FunctionInventory
             // onClick={functionsChange}
@@ -62,8 +62,8 @@ const Home = (): JSX.Element => {
           </Col>
           <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4 main">
             <BasicFlow
-              type={sequence}
-              functionNames={functions}
+              // type={sequence}
+              // functionNames={functions}
               onSave={onSaveClick}
             />
             <Execution compositionName={flowState.name} />
