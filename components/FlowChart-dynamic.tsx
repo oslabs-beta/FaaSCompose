@@ -307,7 +307,7 @@ const BasicFlow = (props) => {
 
   const reduxDispatch = useDispatch();
   const compositionName = useSelector(selectCompositionName);
-  const sequenceState = useSelector((state) => state.sequence);
+  const sequenceState = useSelector((state) => state.sequences);
 
   useEffect(() => {
     // update in sequence

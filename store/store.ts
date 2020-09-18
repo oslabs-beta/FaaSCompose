@@ -3,7 +3,7 @@ import executionReducer from './reducers/executionReducer';
 import testcounterReducer from './reducers/counterSlice';
 import editorReducer from './reducers/editorReducer';
 import functionsReducer from './reducers/functionsReducer';
-import sequenceSlice from './reducers/sequenceReducer';
+import sequenceReducer from './reducers/sequenceReducer';
 
 // import clockReducer from './lib/slices/clockSlice'
 
@@ -13,7 +13,7 @@ export default configureStore({
     counter: testcounterReducer,
     editor: editorReducer,
     functions: functionsReducer,
-    sequence: sequenceSlice,
+    sequences: sequenceReducer,
   },
   devTools: true,
 });

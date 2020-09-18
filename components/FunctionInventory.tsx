@@ -36,7 +36,7 @@ const FunctionInventory = () => {
       });
   };
   useEffect(() => {
-    console.log('hi');
+    //console.log('hi');
     getFuncs();
   }, []);
 
