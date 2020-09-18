@@ -9,11 +9,14 @@ const functionsSlice = createSlice({
     setFuncs: (state, action) => {
       state.currentFuncs = action.payload;
     },
+    addFunc: (state, action) => {
+      state.currentFuncs[action.payload.name] = action.payload;
+    },
   },
 });
 
 export const selectFuncs = (state): object => state.functions.currentFuncs;
 
-export const { setFuncs } = functionsSlice.actions;
+export const { setFuncs, addFunc } = functionsSlice.actions;
 
 export default functionsSlice.reducer;

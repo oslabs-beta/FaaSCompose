@@ -13,12 +13,12 @@ const Home = (): JSX.Element => {
   const [sequence, setSequence] = useState('');
   const [functions, setFunctions] = useState('');
 
-  const [funcToEdit, setFuncToEdit] = useState({
-    name: 'Name',
-    description: 'Description',
-    id: '',
-    definition: '',
-  });
+  // const [funcToEdit, setFuncToEdit] = useState({
+  //   name: 'Name',
+  //   description: 'Description',
+  //   id: '',
+  //   definition: '',
+  // });
 
   const [flowState, setflowState] = useState('');
   const sequenceChange = (el) => {
@@ -54,9 +54,9 @@ const Home = (): JSX.Element => {
             <FlowButtons onClick={sequenceChange} sequence={sequence} />
             <hr />
             <FunctionInventory
-              onClick={functionsChange}
-              functions={functions}
-              // toggleFuncEditor={toggleFuncEditor}
+            // onClick={functionsChange}
+            // functions={functions}
+            // toggleFuncEditor={toggleFuncEditor}
             />
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
@@ -68,7 +68,7 @@ const Home = (): JSX.Element => {
             />
             <Execution compositionName={flowState.name} />
           </Col>
-          <FuncEditor funcToEdit={funcToEdit} />
+          <FuncEditor />
         </Row>
       </Container>
     </div>

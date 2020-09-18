@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
 
 import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
+import { addFunc } from '../store/reducers/functionsReducer';
 
-const FuncEditor = (props): JSX.Element => {
+const FuncEditor = (): JSX.Element => {
   const [isEditorReady, setIsEditorReady] = useState(false);
   const dispatch = useDispatch();
   const editorView = useSelector(selectShow);
@@ -23,10 +24,10 @@ const FuncEditor = (props): JSX.Element => {
   }
 
   // Add function method, runs when "Add Function" button pressed
-  const addFunc = () => {
+  const addFuncToReduxAndBackend = () => {
     const id = String(Math.floor(Math.random() * 1000));
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;
-    // get description of function from form
+    // get description of functi on from form
     const description = (document.getElementById(
       'description'
     ) as HTMLTextAreaElement).value;
@@ -38,7 +39,7 @@ const FuncEditor = (props): JSX.Element => {
       // This gets the value from the Editor
       definition: valueGetter.current(),
     };
-
+    dispatch(addFunc(newFuncObj));
     fetch('/api/functions/upsert-function', {
       method: 'post',
       headers: {
@@ -46,7 +47,6 @@ const FuncEditor = (props): JSX.Element => {
       },
       body: JSON.stringify(newFuncObj),
     }).then((response) => {
-      // console.log(response);
       setTimeout(() => {
         dispatchToggleFuncEditor();
       }, 1000);
@@ -69,19 +69,19 @@ const FuncEditor = (props): JSX.Element => {
         />
         <Form className="mt-4">
           <Form.Label>Function Name:</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder={props.funcToEdit.name}
-            id="name"
-          ></Form.Control>
+          <Form.Control type="text" placeholder="Name" id="name"></Form.Control>
           <Form.Label>Function Description:</Form.Label>
           <Form.Control
             type="text"
-            placeholder={props.funcToEdit.description}
+            placeholder="Description"
             id="description"
           ></Form.Control>
 
-          <Button variant="primary" className="mt-3 mr-3" onClick={addFunc}>
+          <Button
+            variant="primary"
+            className="mt-3 mr-3"
+            onClick={addFuncToReduxAndBackend}
+          >
             Add Function
           </Button>
           <Button onClick={dispatchToggleFuncEditor} className="mt-3 mr-3">

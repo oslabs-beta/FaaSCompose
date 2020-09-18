@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
@@ -14,10 +14,9 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { toggleFuncEditor } from '../store/reducers/editorReducer';
 import { setFuncs, selectFuncs } from '../store/reducers/functionsReducer';
 
-const FunctionInventory = (props) => {
+const FunctionInventory = () => {
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
-
   const funcs = [];
 
   function dispatchToggleFuncEditor() {
@@ -37,10 +36,11 @@ const FunctionInventory = (props) => {
       });
   };
   useEffect(() => {
+    console.log('hi');
     getFuncs();
-  }, [getFuncs]);
+  }, []);
 
-  Object.keys(currentFuncs).map((func) => {
+  for (let func in currentFuncs) {
     funcs.push(
       <ListGroupItem
         style={{
@@ -50,8 +50,8 @@ const FunctionInventory = (props) => {
         }}
         className="mt-2"
         onClick={() => {
-          console.log('List Group::', currentFuncs[func].name);
-          props.onClick(currentFuncs[func].name);
+          // console.log('List Group::', currentFuncs[func].name);
+          // props.onClick(currentFuncs[func].name);
         }}
       >
         <OverlayTrigger
@@ -71,9 +71,9 @@ const FunctionInventory = (props) => {
           icon={faEdit}
           className="icon float-right"
         />
-      </ListGroupItem>,
+      </ListGroupItem>
     );
-  });
+  }
 
   return (
     <div>
