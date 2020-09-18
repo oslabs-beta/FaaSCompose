@@ -52,8 +52,12 @@ const initElements = [
       padding: 5,
     },
   },
-  { id: 'init-e1-3', source: 'init-start', target: 'init-0', animated: true },
-  { id: 'init-e1-4', source: 'init-0', target: 'init-end', animated: true },
+  {
+    id: 'init-e1-3', source: 'init-start', target: 'init-0', animated: true,
+  },
+  {
+    id: 'init-e1-4', source: 'init-0', target: 'init-end', animated: true,
+  },
 ];
 
 const elements = [
@@ -73,13 +77,17 @@ const elements = [
     id: 'sequence-0',
     data: { label: 'Node 1' },
     position: { x: 150, y: 75 },
-    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
+    style: {
+      fontWeight: 400, fontSize: 15, background: '#eee', color: '#333',
+    },
   },
   {
     id: 'sequence-1',
     data: { label: 'Node 2' },
     position: { x: 150, y: 150 },
-    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
+    style: {
+      fontWeight: 400, fontSize: 15, background: '#eee', color: '#333',
+    },
   },
   {
     id: 'sequence-end',
@@ -93,14 +101,18 @@ const elements = [
       padding: 5,
     },
   },
-  { id: 'e1-2', source: 'sequence-0', target: 'sequence-1', animated: true },
+  {
+    id: 'e1-2', source: 'sequence-0', target: 'sequence-1', animated: true,
+  },
   {
     id: 'e1-3',
     source: 'sequence-start',
     target: 'sequence-0',
     animated: true,
   },
-  { id: 'e1-4', source: 'sequence-1', target: 'sequence-end', animated: true },
+  {
+    id: 'e1-4', source: 'sequence-1', target: 'sequence-end', animated: true,
+  },
 ];
 
 const elements_ifelse = [
@@ -120,19 +132,25 @@ const elements_ifelse = [
     id: 'ifelse-0',
     data: { label: 'Node 1' },
     position: { x: 150, y: 75 },
-    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
+    style: {
+      fontWeight: 400, fontSize: 15, background: '#eee', color: '#333',
+    },
   },
   {
     id: 'ifelse-1',
     data: { label: 'Node 2' },
     position: { x: 50, y: 150 },
-    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
+    style: {
+      fontWeight: 400, fontSize: 15, background: '#eee', color: '#333',
+    },
   },
   {
     id: 'ifelse-2',
     data: { label: 'Node 3' },
     position: { x: 250, y: 150 },
-    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
+    style: {
+      fontWeight: 400, fontSize: 15, background: '#eee', color: '#333',
+    },
   },
   {
     id: 'ifelse-end',
@@ -146,7 +164,9 @@ const elements_ifelse = [
       padding: 5,
     },
   },
-  { id: 'e2-2', source: 'ifelse-start', target: 'ifelse-0', animated: true },
+  {
+    id: 'e2-2', source: 'ifelse-start', target: 'ifelse-0', animated: true,
+  },
   {
     id: 'e2-3',
     source: 'ifelse-0',
@@ -186,7 +206,7 @@ const elements_ifelse = [
 export const ACTIONS = {
   ADD: 'ADD',
   REMOVE: 'REMOVE',
-  //MODIFY_LABEL: "MODIFY_LABEL",
+  // MODIFY_LABEL: "MODIFY_LABEL",
   RESET: 'RESET',
   UPDATE_POSITION: 'UPDATE_POSITION',
   SEQUENCE: 'SEQUENCE',
@@ -198,12 +218,12 @@ const reducer = (state, action) => {
     case ACTIONS.SEQUENCE: {
       if (action.payload == 'sequence') {
         return elements;
-      } else if (action.payload == 'ifelse') {
+      } if (action.payload == 'ifelse') {
         return elements_ifelse;
-      } else return initElements;
+      } return initElements;
     }
     case ACTIONS.FUNCTIONS: {
-      let newState = state.map((node) => {
+      const newState = state.map((node) => {
         if (node.id == action.payload.target) {
           node.data = { label: action.payload.functionNames };
           node.style = { background: '#8DA9C4' };
@@ -234,15 +254,13 @@ const reducer = (state, action) => {
 
 export const combineResult = (name, flowType, nodes) => {
   const tempFunc = nodes
-    .filter((node) =>
-      node.data !== undefined &&
-      node.data.label !== 'Start' &&
-      node.data.label !== 'End'
-        ? node.data.label
-        : ''
-    )
+    .filter((node) => (node.data !== undefined
+      && node.data.label !== 'Start'
+      && node.data.label !== 'End'
+      ? node.data.label
+      : ''))
     .map((e) => e.data.label);
-  return { name: name, type: flowType, func: tempFunc };
+  return { name, type: flowType, func: tempFunc };
 };
 
 const BasicFlow = (props) => {
@@ -255,23 +273,23 @@ const BasicFlow = (props) => {
   const compositionName = useSelector(selectCompositionName);
 
   useEffect(() => {
-    //update in sequence
+    // update in sequence
     setType(() => {
       if (type != props.type) {
         dispatch({ type: ACTIONS.SEQUENCE, payload: props.type });
         return props.type;
-      } else if (type == props.type) return type;
+      } if (type == props.type) return type;
     });
 
-    //update functions name
+    // update functions name
     setFunctions(() => {
       if (props.functionNames != functions && target !== undefined) {
         dispatch({
           type: ACTIONS.FUNCTIONS,
-          payload: { target: target, functionNames: props.functionNames },
+          payload: { target, functionNames: props.functionNames },
         });
         return props.functionNames;
-      } else return functions;
+      } return functions;
     });
   });
 

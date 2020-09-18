@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   Button,
@@ -10,11 +11,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
-const FunctionInventory = (props) => {
-  const [currentFuncs, setFuncs] = useState({});
-  const [buttons, setButtons] = useState();
+import { toggleFuncEditor } from '../store/reducers/editorReducer';
+import { setFuncs, selectFuncs } from '../store/reducers/functionsReducer';
 
-  let funcs = [];
+const FunctionInventory = () => {
+  const dispatch = useDispatch();
+  const currentFuncs = useSelector(selectFuncs);
+  const funcs = [];
+
+  function dispatchToggleFuncEditor() {
+    dispatch(toggleFuncEditor());
+  }
 
   const getFuncs = () => {
     fetch('/api/functions/read-functions', {
@@ -25,14 +32,15 @@ const FunctionInventory = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setFuncs(data);
+        dispatch(setFuncs(data));
       });
   };
   useEffect(() => {
+    console.log('hi');
     getFuncs();
   }, []);
 
-  Object.keys(currentFuncs).map((func) => {
+  for (let func in currentFuncs) {
     funcs.push(
       <ListGroupItem
         style={{
@@ -42,8 +50,8 @@ const FunctionInventory = (props) => {
         }}
         className="mt-2"
         onClick={() => {
-          console.log('List Group::', currentFuncs[func].name);
-          props.onClick(currentFuncs[func].name);
+          // console.log('List Group::', currentFuncs[func].name);
+          // props.onClick(currentFuncs[func].name);
         }}
       >
         <OverlayTrigger
@@ -65,7 +73,7 @@ const FunctionInventory = (props) => {
         />
       </ListGroupItem>
     );
-  });
+  }
 
   return (
     <div>
@@ -77,7 +85,7 @@ const FunctionInventory = (props) => {
           <Button
             variant="primary"
             className="mt-4"
-            onClick={props.toggleFuncEditor}
+            onClick={dispatchToggleFuncEditor}
           >
             New Function
           </Button>

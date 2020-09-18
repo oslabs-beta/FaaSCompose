@@ -1,8 +1,8 @@
 import React from 'react';
 import JSONInput from 'react-json-editor-ajrm/index';
 import locale from 'react-json-editor-ajrm/locale/en';
-import { selectCompositionOutput } from '../../store/reducers/executionReducer';
 import { useSelector } from 'react-redux';
+import { selectCompositionOutput } from '../../store/reducers/executionReducer';
 
 const CompositionResult = (): JSX.Element => {
   const compositionOutput = useSelector(selectCompositionOutput);
