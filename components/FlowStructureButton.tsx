@@ -7,10 +7,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   selectSequence,
   changeCurrent,
+  selectCurrentSequence,
 } from '../store/reducers/sequenceReducer';
 
 const FlowButtons = (): JSX.Element => {
   const sequence = useSelector(selectSequence);
+  const selectedCurrentSequence = useSelector(selectCurrentSequence);
   const dispatch = useDispatch();
 
   return (
@@ -18,16 +20,16 @@ const FlowButtons = (): JSX.Element => {
       <h2 className="mt-4" style={{ color: '#fff', fontSize: 24 }}>
         Choose a flow
       </h2>
-      {sequence['sequences'].list.map((button) => (
+      {sequence['list'].map((button) => (
         <Button
           key={nanoid()}
           variant="outline-light secondary "
           size="lg"
-          //block
+          block
           onClick={() => {
             dispatch(changeCurrent(button));
           }}
-          active={button === sequence['sequences'].current}
+          active={button == selectedCurrentSequence}
         >
           {button}
         </Button>

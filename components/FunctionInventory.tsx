@@ -12,7 +12,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import { toggleFuncEditor } from '../store/reducers/editorReducer';
-import { setFuncs, selectFuncs } from '../store/reducers/functionsReducer';
+import {
+  setFuncs,
+  selectFuncs,
+  setCurrentFunc,
+} from '../store/reducers/functionsReducer';
 
 const FunctionInventory = () => {
   const dispatch = useDispatch();
@@ -36,7 +40,6 @@ const FunctionInventory = () => {
       });
   };
   useEffect(() => {
-    //console.log('hi');
     getFuncs();
   }, []);
 
@@ -50,8 +53,7 @@ const FunctionInventory = () => {
         }}
         className="mt-2"
         onClick={() => {
-          // console.log('List Group::', currentFuncs[func].name);
-          // props.onClick(currentFuncs[func].name);
+          dispatch(setCurrentFunc(func));
         }}
       >
         <OverlayTrigger

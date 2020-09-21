@@ -4,24 +4,24 @@ const sequenceSlice = createSlice({
   name: 'sequence',
   initialState: {
     sequences: {
-      list: ['init', 'ifelse', 'sequence'],
-      current: 'init',
+      list: ['ifelse', 'sequence'],
+      currentSelectedFlow: 'init',
     },
   },
 
   reducers: {
     setSequence: (state, action) => {
-      console.log('---PAY', action);
       state.sequences = action.payload;
     },
     changeCurrent: (state, action) => {
-      console.log('---PAY', action);
-      state.sequences.current = action.payload;
+      state.sequences.currentSelectedFlow = action.payload;
     },
   },
 });
 
-export const selectSequence = (state): object => state.sequences;
+export const selectSequence = (state): object => state.sequences.sequences;
+export const selectCurrentSequence = (state): object =>
+  state.sequences.sequences.currentSelectedFlow;
 
 export const { setSequence, changeCurrent } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

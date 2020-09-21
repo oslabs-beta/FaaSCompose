@@ -10,10 +10,23 @@ import {
   selectCompositionName,
 } from '../store/reducers/executionReducer';
 
-import { sequenceSlice } from '../store/reducers/sequenceReducer';
+import {
+  selectSequence,
+  selectCurrentSequence,
+} from '../store/reducers/sequenceReducer';
+import {
+  selectCurrent,
+  setCurrentFunc,
+} from '../store/reducers/functionsReducer';
+import {
+  setTarget,
+  selectTarget,
+  //setNodes,
+  //updateNodeName,
+  //selectNodes,
+} from '../store/reducers/canvasReducer';
 
 import FlowName from './FlowName';
-import LoginDeploy from './Execution/LoginDeploy';
 
 const initElements = [
   {
@@ -54,18 +67,8 @@ const initElements = [
       padding: 5,
     },
   },
-  {
-    id: 'init-e1-3',
-    source: 'init-start',
-    target: 'init-0',
-    animated: true,
-  },
-  {
-    id: 'init-e1-4',
-    source: 'init-0',
-    target: 'init-end',
-    animated: true,
-  },
+  { id: 'init-e1-3', source: 'init-start', target: 'init-0', animated: true },
+  { id: 'init-e1-4', source: 'init-0', target: 'init-end', animated: true },
 ];
 
 const elements = [
@@ -85,23 +88,13 @@ const elements = [
     id: 'sequence-0',
     data: { label: 'Node 1' },
     position: { x: 150, y: 75 },
-    style: {
-      fontWeight: 400,
-      fontSize: 15,
-      background: '#eee',
-      color: '#333',
-    },
+    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
   },
   {
     id: 'sequence-1',
     data: { label: 'Node 2' },
     position: { x: 150, y: 150 },
-    style: {
-      fontWeight: 400,
-      fontSize: 15,
-      background: '#eee',
-      color: '#333',
-    },
+    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
   },
   {
     id: 'sequence-end',
@@ -115,24 +108,14 @@ const elements = [
       padding: 5,
     },
   },
-  {
-    id: 'e1-2',
-    source: 'sequence-0',
-    target: 'sequence-1',
-    animated: true,
-  },
+  { id: 'e1-2', source: 'sequence-0', target: 'sequence-1', animated: true },
   {
     id: 'e1-3',
     source: 'sequence-start',
     target: 'sequence-0',
     animated: true,
   },
-  {
-    id: 'e1-4',
-    source: 'sequence-1',
-    target: 'sequence-end',
-    animated: true,
-  },
+  { id: 'e1-4', source: 'sequence-1', target: 'sequence-end', animated: true },
 ];
 
 const elements_ifelse = [
@@ -152,34 +135,19 @@ const elements_ifelse = [
     id: 'ifelse-0',
     data: { label: 'Node 1' },
     position: { x: 150, y: 75 },
-    style: {
-      fontWeight: 400,
-      fontSize: 15,
-      background: '#eee',
-      color: '#333',
-    },
+    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
   },
   {
     id: 'ifelse-1',
     data: { label: 'Node 2' },
     position: { x: 50, y: 150 },
-    style: {
-      fontWeight: 400,
-      fontSize: 15,
-      background: '#eee',
-      color: '#333',
-    },
+    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
   },
   {
     id: 'ifelse-2',
     data: { label: 'Node 3' },
     position: { x: 250, y: 150 },
-    style: {
-      fontWeight: 400,
-      fontSize: 15,
-      background: '#eee',
-      color: '#333',
-    },
+    style: { fontWeight: 400, fontSize: 15, background: '#eee', color: '#333' },
   },
   {
     id: 'ifelse-end',
@@ -193,12 +161,7 @@ const elements_ifelse = [
       padding: 5,
     },
   },
-  {
-    id: 'e2-2',
-    source: 'ifelse-start',
-    target: 'ifelse-0',
-    animated: true,
-  },
+  { id: 'e2-2', source: 'ifelse-start', target: 'ifelse-0', animated: true },
   {
     id: 'e2-3',
     source: 'ifelse-0',
@@ -235,57 +198,6 @@ const elements_ifelse = [
   },
 ];
 
-export const ACTIONS = {
-  ADD: 'ADD',
-  REMOVE: 'REMOVE',
-  // MODIFY_LABEL: "MODIFY_LABEL",
-  RESET: 'RESET',
-  UPDATE_POSITION: 'UPDATE_POSITION',
-  SEQUENCE: 'SEQUENCE',
-  FUNCTIONS: 'FUNCTIONS',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ACTIONS.SEQUENCE: {
-      if (action.payload == 'sequence') {
-        return elements;
-      }
-      if (action.payload == 'ifelse') {
-        return elements_ifelse;
-      }
-      return initElements;
-    }
-    case ACTIONS.FUNCTIONS: {
-      const newState = state.map((node) => {
-        if (node.id == action.payload.target) {
-          node.data = { label: action.payload.functionNames };
-          node.style = { background: '#8DA9C4' };
-        }
-        return node;
-      });
-
-      return newState;
-    }
-
-    case ACTIONS.ADD: {
-      return [
-        ...state,
-        {
-          id: nanoid(),
-          data: { label: action.label },
-          position: { x: 100, y: 100 },
-        },
-      ];
-    }
-    case ACTIONS.REMOVE: {
-      return state.filter((node) => node.id !== action.id);
-    }
-    default:
-      return state;
-  }
-};
-
 export const combineResult = (name, flowType, nodes) => {
   const tempFunc = nodes
     .filter((node) =>
@@ -300,45 +212,62 @@ export const combineResult = (name, flowType, nodes) => {
 };
 
 const BasicFlow = (props) => {
-  const [nodes, dispatch] = useReducer(reducer, initElements);
-  const [type, setType] = useState('sequence');
-  const [functions, setFunctions] = useState();
-  const [target, setTarget] = useState('');
-
   const reduxDispatch = useDispatch();
   const compositionName = useSelector(selectCompositionName);
-  const sequenceState = useSelector((state) => state.sequences);
+  const sequences = useSelector(selectSequence);
+  const selectedCurrentSequence = useSelector(selectCurrentSequence);
+  const selectedFunctions = useSelector(selectCurrent);
+  const currentTarget = useSelector(selectTarget);
+  //const nodes = useSelector(selectNodes);
 
-  useEffect(() => {
-    // update in sequence
-    // setType(() => {
-    //   if (type != props.type) {
-    //     dispatch({ type: ACTIONS.SEQUENCE, payload: props.type });
-    //     return props.type;
-    //   }
-    //   if (type == props.type) return type;
-    // });
-    reduxDispatch({ type: ACTIONS.SEQUENCE, payload: sequenceState.sequence });
-    // update functions name
-    setFunctions(() => {
-      if (props.functionNames != functions && target !== undefined) {
-        dispatch({
-          type: ACTIONS.FUNCTIONS,
-          payload: { target, functionNames: props.functionNames },
-        });
-        return props.functionNames;
+  let updateSequence = () => {
+    let nodeValue;
+    if (selectedCurrentSequence.toString() == 'sequence') {
+      //return elements;
+      nodeValue = elements;
+      // reduxDispatch(setNodes(elements));
+    } else if (selectedCurrentSequence.toString() == 'ifelse') {
+      //  reduxDispatch(setNodes(elements_ifelse));
+      // return elements_ifelse;
+      nodeValue = elements_ifelse;
+    } else {
+      //   reduxDispatch(setNodes(initElements)); //initElements;}
+      nodeValue = initElements;
+    }
+    return nodeValue;
+  };
+  let nodes = updateSequence();
+  let updateFunction = () => {
+    let newState = nodes.map((node) => {
+      if (node.id == currentTarget) {
+        node.data = { label: selectedFunctions };
+        node.style = { background: '#8DA9C4' };
       }
-      return functions;
+      return node;
     });
+
+    return newState;
+  };
+
+  nodes = updateFunction();
+  useEffect(() => {
+    updateFunction();
+    updateSequence();
   });
 
-  const resultFunc = combineResult(compositionName, type, nodes);
-  const onElementClick = (event, element) => setTarget(element.id);
+  const resultFunc = combineResult(
+    compositionName,
+    selectedCurrentSequence,
+    nodes
+  );
+  const onElementClick = (event, element) => {
+    reduxDispatch(setTarget(element.id));
+    reduxDispatch(setCurrentFunc(''));
+  };
 
   function changeCompositionName(name) {
     reduxDispatch(setCompositionName(name));
   }
-  console.log('result func', resultFunc);
 
   return (
     <div>
@@ -354,7 +283,6 @@ const BasicFlow = (props) => {
           props.onSave(resultFunc);
         }}
         onChange={(name) => {
-          console.log('onchange ', name);
           changeCompositionName(name);
         }}
         compositionName={compositionName}
