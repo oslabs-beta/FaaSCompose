@@ -1,27 +1,44 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { type } from 'os';
+
+type TInitialSequences = {
+  list: string[];
+  clickedSequence: string;
+};
+
+type TActionInitialSequences = {
+  payload: TInitialSequences;
+  type: string;
+};
+
+type TActionClickedSequence = {
+  payload: string;
+  type: string;
+};
 
 const sequenceSlice = createSlice({
   name: 'sequence',
   initialState: {
-    sequences: {
+    initialSequences: {
       list: ['ifelse', 'sequence'],
-      currentSelectedFlow: 'init',
+      clickedSequence: '',
     },
   },
 
   reducers: {
-    setSequence: (state, action) => {
-      state.sequences = action.payload;
+    setInitialSequences: (state, action: TActionInitialSequences) => {
+      state.initialSequences = action.payload;
     },
-    changeCurrent: (state, action) => {
-      state.sequences.currentSelectedFlow = action.payload;
+    changeCurrent: (state, action: TActionClickedSequence) => {
+      state.initialSequences.clickedSequence = action.payload;
     },
   },
 });
 
-export const selectSequence = (state): object => state.sequences.sequences;
-export const selectCurrentSequence = (state): object =>
-  state.sequences.sequences.currentSelectedFlow;
+export const selectSequence = (state): TInitialSequences =>
+  state.sequences.initialSequences;
+export const selectCurrentSequence = (state): string =>
+  state.sequences.initialSequences.clickedSequence;
 
-export const { setSequence, changeCurrent } = sequenceSlice.actions;
+export const { setInitialSequences, changeCurrent } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

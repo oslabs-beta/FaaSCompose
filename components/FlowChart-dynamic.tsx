@@ -15,12 +15,12 @@ import {
   selectCurrentSequence,
 } from '../store/reducers/sequenceReducer';
 import {
-  selectCurrent,
+  selectClickedFunc,
   setCurrentFunc,
 } from '../store/reducers/functionsReducer';
 import {
-  setTarget,
-  selectTarget,
+  setFlowRendererNodeId,
+  selectFlowRendererNodeId,
   //setNodes,
   //updateNodeName,
   //selectNodes,
@@ -216,8 +216,8 @@ const BasicFlow = (props) => {
   const compositionName = useSelector(selectCompositionName);
   const sequences = useSelector(selectSequence);
   const selectedCurrentSequence = useSelector(selectCurrentSequence);
-  const selectedFunctions = useSelector(selectCurrent);
-  const currentTarget = useSelector(selectTarget);
+  const selectedFunctions = useSelector(selectClickedFunc);
+  const selectedFlowRendererNodeId = useSelector(selectFlowRendererNodeId);
   //const nodes = useSelector(selectNodes);
 
   let updateSequence = () => {
@@ -239,7 +239,7 @@ const BasicFlow = (props) => {
   let nodes = updateSequence();
   let updateFunction = () => {
     let newState = nodes.map((node) => {
-      if (node.id == currentTarget) {
+      if (node.id == selectedFlowRendererNodeId) {
         node.data = { label: selectedFunctions };
         node.style = { background: '#8DA9C4' };
       }
@@ -261,7 +261,7 @@ const BasicFlow = (props) => {
     nodes
   );
   const onElementClick = (event, element) => {
-    reduxDispatch(setTarget(element.id));
+    reduxDispatch(setFlowRendererNodeId(element.id));
     reduxDispatch(setCurrentFunc(''));
   };
 

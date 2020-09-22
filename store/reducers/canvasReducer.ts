@@ -1,30 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type TActionSetFlowRendererNodeId = {
+  payload: string;
+  type: string;
+};
+
 const canvasSlice = createSlice({
   name: 'canvas',
   initialState: {
-    target: '',
+    flowRendererNodeId: '',
   },
   reducers: {
-    setNodes: (state, action) => {
-      state.target = action.payload;
+    // setNodes: (state, action) => {
+    //   state.flowRendererNodeId = action.payload;
+    // },
+    setFlowRendererNodeId: (state, action: TActionSetFlowRendererNodeId) => {
+      state.flowRendererNodeId = action.payload;
     },
-    setTarget: (state, action) => {
-      state.target = action.payload;
-    },
-    updateNodeName: (state, action) => {
-      //will add nodes part later
-      // state.nodes = action.payload.tempState;
-      // console.log('---updateNodeName--', action);
-      // state.nodes[action.payload.key] = { ...action.payload.p };
-    },
+    // updateNodeName: (state, action) => {
+    //   //will add nodes part later
+    //   // state.nodes = action.payload.tempState;
+    //   // console.log('---updateNodeName--', action);
+    //   // state.nodes[action.payload.key] = { ...action.payload.p };
+    // },
   },
 });
 
-export const selectNodes = (state): object => state.canvas.nodes;
-export const selectTarget = (state): object => state.canvas.target;
-export const selectNodeName = (state): object => state.canvas.nodes;
+//export const selectNodes = (state): object => state.canvas.nodes;
+export const selectFlowRendererNodeId = (state): string =>
+  state.canvas.flowRendererNodeId;
+//export const selectNodeName = (state): object => state.canvas.nodes;
 
-export const { setNodes, setTarget, updateNodeName } = canvasSlice.actions;
+export const { setFlowRendererNodeId } = canvasSlice.actions;
 
 export default canvasSlice.reducer;
