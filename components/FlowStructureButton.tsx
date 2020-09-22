@@ -1,25 +1,37 @@
+import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
-import flowStructure from '../data/flowStructures.json';
+import { Button } from 'react-bootstrap';
+//import flowStructure from '../data/flowStructures.json';
+import { useSelector, useDispatch } from 'react-redux';
 
-const FlowButtons = (props): JSX.Element => {
-  const [buttons, setButtons] = useState(flowStructure);
+import {
+  selectSequence,
+  changeCurrent,
+  selectCurrentSequence,
+} from '../store/reducers/sequenceReducer';
+
+const FlowButtons = (): JSX.Element => {
+  const sequence = useSelector(selectSequence);
+  const selectedCurrentSequence = useSelector(selectCurrentSequence);
+  const dispatch = useDispatch();
+
   return (
     <>
       <h2 className="mt-4" style={{ color: '#fff', fontSize: 24 }}>
         Choose a flow
       </h2>
-      {Object.keys(buttons).map((button) => (
+      {sequence['list'].map((button) => (
         <Button
-          key={buttons[button].id}
-          variant="secondary"
+          key={nanoid()}
+          variant="outline-light secondary "
           size="lg"
-          variant="outline-light"
           block
-          onClick={() => props.onClick(button)}
-          active={button == props.sequence ? true : false}
+          onClick={() => {
+            dispatch(changeCurrent(button));
+          }}
+          active={button == selectedCurrentSequence}
         >
-          {buttons[button].display}
+          {button}
         </Button>
       ))}
     </>

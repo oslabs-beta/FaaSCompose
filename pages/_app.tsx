@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import type { AppProps /*, AppContext */ } from 'next/app';
+import type { AppProps /* , AppContext */ } from 'next/app';
 
 import { Provider } from 'react-redux';
 import store from '../store/store';

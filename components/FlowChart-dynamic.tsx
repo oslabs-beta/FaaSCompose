@@ -10,8 +10,23 @@ import {
   selectCompositionName,
 } from '../store/reducers/executionReducer';
 
+import {
+  selectSequence,
+  selectCurrentSequence,
+} from '../store/reducers/sequenceReducer';
+import {
+  selectCurrent,
+  setCurrentFunc,
+} from '../store/reducers/functionsReducer';
+import {
+  setTarget,
+  selectTarget,
+  //setNodes,
+  //updateNodeName,
+  //selectNodes,
+} from '../store/reducers/canvasReducer';
+
 import FlowName from './FlowName';
-import LoginDeploy from './Execution/LoginDeploy';
 
 const initElements = [
   {
@@ -183,55 +198,6 @@ const elements_ifelse = [
   },
 ];
 
-export const ACTIONS = {
-  ADD: 'ADD',
-  REMOVE: 'REMOVE',
-  //MODIFY_LABEL: "MODIFY_LABEL",
-  RESET: 'RESET',
-  UPDATE_POSITION: 'UPDATE_POSITION',
-  SEQUENCE: 'SEQUENCE',
-  FUNCTIONS: 'FUNCTIONS',
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case ACTIONS.SEQUENCE: {
-      if (action.payload == 'sequence') {
-        return elements;
-      } else if (action.payload == 'ifelse') {
-        return elements_ifelse;
-      } else return initElements;
-    }
-    case ACTIONS.FUNCTIONS: {
-      let newState = state.map((node) => {
-        if (node.id == action.payload.target) {
-          node.data = { label: action.payload.functionNames };
-          node.style = { background: '#8DA9C4' };
-        }
-        return node;
-      });
-
-      return newState;
-    }
-
-    case ACTIONS.ADD: {
-      return [
-        ...state,
-        {
-          id: nanoid(),
-          data: { label: action.label },
-          position: { x: 100, y: 100 },
-        },
-      ];
-    }
-    case ACTIONS.REMOVE: {
-      return state.filter((node) => node.id !== action.id);
-    }
-    default:
-      return state;
-  }
-};
-
 export const combineResult = (name, flowType, nodes) => {
   const tempFunc = nodes
     .filter((node) =>
@@ -242,46 +208,66 @@ export const combineResult = (name, flowType, nodes) => {
         : ''
     )
     .map((e) => e.data.label);
-  return { name: name, type: flowType, func: tempFunc };
+  return { name, type: flowType, func: tempFunc };
 };
 
 const BasicFlow = (props) => {
-  const [nodes, dispatch] = useReducer(reducer, initElements);
-  const [type, setType] = useState('sequence');
-  const [functions, setFunctions] = useState();
-  const [target, setTarget] = useState('');
-
   const reduxDispatch = useDispatch();
   const compositionName = useSelector(selectCompositionName);
+  const sequences = useSelector(selectSequence);
+  const selectedCurrentSequence = useSelector(selectCurrentSequence);
+  const selectedFunctions = useSelector(selectCurrent);
+  const currentTarget = useSelector(selectTarget);
+  //const nodes = useSelector(selectNodes);
 
+  let updateSequence = () => {
+    let nodeValue;
+    if (selectedCurrentSequence.toString() == 'sequence') {
+      //return elements;
+      nodeValue = elements;
+      // reduxDispatch(setNodes(elements));
+    } else if (selectedCurrentSequence.toString() == 'ifelse') {
+      //  reduxDispatch(setNodes(elements_ifelse));
+      // return elements_ifelse;
+      nodeValue = elements_ifelse;
+    } else {
+      //   reduxDispatch(setNodes(initElements)); //initElements;}
+      nodeValue = initElements;
+    }
+    return nodeValue;
+  };
+  let nodes = updateSequence();
+  let updateFunction = () => {
+    let newState = nodes.map((node) => {
+      if (node.id == currentTarget) {
+        node.data = { label: selectedFunctions };
+        node.style = { background: '#8DA9C4' };
+      }
+      return node;
+    });
+
+    return newState;
+  };
+
+  nodes = updateFunction();
   useEffect(() => {
-    //update in sequence
-    setType(() => {
-      if (type != props.type) {
-        dispatch({ type: ACTIONS.SEQUENCE, payload: props.type });
-        return props.type;
-      } else if (type == props.type) return type;
-    });
-
-    //update functions name
-    setFunctions(() => {
-      if (props.functionNames != functions && target !== undefined) {
-        dispatch({
-          type: ACTIONS.FUNCTIONS,
-          payload: { target: target, functionNames: props.functionNames },
-        });
-        return props.functionNames;
-      } else return functions;
-    });
+    updateFunction();
+    updateSequence();
   });
 
-  const resultFunc = combineResult(compositionName, type, nodes);
-  const onElementClick = (event, element) => setTarget(element.id);
+  const resultFunc = combineResult(
+    compositionName,
+    selectedCurrentSequence,
+    nodes
+  );
+  const onElementClick = (event, element) => {
+    reduxDispatch(setTarget(element.id));
+    reduxDispatch(setCurrentFunc(''));
+  };
 
   function changeCompositionName(name) {
     reduxDispatch(setCompositionName(name));
   }
-  console.log('result func', resultFunc);
 
   return (
     <div>
@@ -297,7 +283,6 @@ const BasicFlow = (props) => {
           props.onSave(resultFunc);
         }}
         onChange={(name) => {
-          console.log('onchange ', name);
           changeCompositionName(name);
         }}
         compositionName={compositionName}

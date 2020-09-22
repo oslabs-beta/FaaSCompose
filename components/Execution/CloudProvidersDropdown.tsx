@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { DropdownButton, Dropdown, Button } from 'react-bootstrap';
-import { setComposition } from '../../store/reducers/executionReducer';
 import { useDispatch } from 'react-redux';
+import { setComposition } from '../../store/reducers/executionReducer';
 
 const CloudProvidersDropdown = (props): JSX.Element => {
   const dispatch = useDispatch();
   const dispatchSetComposition = (payload) => dispatch(setComposition(payload));
-  const [provider,setProvider] = useState('Cloud Providers');
+  const [provider, setProvider] = useState('Cloud Providers');
   const handleClick = async () => {
     try {
       const compositionResponse = await fetch(
-        `http://localhost:3000/api/ibm/convert/${props.compositionName}`
+        `http://localhost:3000/api/ibm/convert/${props.compositionName}`,
       );
       const compositionJSON = await compositionResponse.json();
       dispatchSetComposition(JSON.stringify(compositionJSON));
