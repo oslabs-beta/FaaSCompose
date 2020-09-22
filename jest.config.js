@@ -1,17 +1,22 @@
 module.exports = {
-  roots: ['<rootDir>'],
-  moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
-  testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules|.next)[/\\\\]'],
-  transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
+  moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {
-    '^.+\\.(ts|tsx)$': 'babel-jest',
+    '^.+\\.tsx?$': 'ts-jest',
   },
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
-  ],
+  testMatch: ['**/*.(test|spec).(ts|tsx|js)'],
+  globals: {
+    'ts-jest': {
+      useBabelrc: true,
+      tsConfigFile: 'jest.tsconfig.json',
+      tsConfig: 'jest.tsconfig.json',
+    },
+  },
+  coveragePathIgnorePatterns: ['/node_modules/', 'enzyme.js'],
+  setupTestFrameworkScriptFile: '<rootDir>/enzyme.js',
+  coverageReporters: ['json', 'lcov', 'text', 'text-summary'],
   moduleNameMapper: {
-    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
-    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__mocks__/fileMock.js',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/__mocks__/mocks.js',
+    '\\.(css|less|scss)$': '<rootDir>/__mocks__/mocks.js',
   },
 };
