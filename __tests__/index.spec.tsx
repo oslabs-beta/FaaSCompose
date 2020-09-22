@@ -12,7 +12,7 @@ describe('Pages', () => {
         'Composition Name'
       );
     });
-    it('click on save', function () {
+    it('prop onSave should be called when click on save button', function () {
       const mockSave = jest.fn(() => Promise.resolve(true));
       const wrap = mount(<FlowName onSave={mockSave} />);
       wrap.find('Button').simulate('click', { shiftKey: false });
