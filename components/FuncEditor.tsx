@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
+import { nanoid } from 'nanoid';
 
 import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
 import { addFunc } from '../store/reducers/functionsReducer';
@@ -25,7 +26,7 @@ const FuncEditor = (): JSX.Element => {
 
   // Add function method, runs when "Add Function" button pressed
   const addFuncToReduxAndBackend = () => {
-    const id = String(Math.floor(Math.random() * 1000));
+    const id = String(nanoid());
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;
     // get description of functi on from form
     const description = (document.getElementById(
@@ -46,7 +47,7 @@ const FuncEditor = (): JSX.Element => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newFuncObj),
-    }).then((response) => {
+    }).then(() => {
       setTimeout(() => {
         dispatchToggleFuncEditor();
       }, 1000);
