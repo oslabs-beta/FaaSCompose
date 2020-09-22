@@ -1,36 +1,29 @@
 // import Head from 'next/head';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
-
-//import FunctionButtons from '../components/FunctionStructureButtons';
-
-import React, { useState } from 'react';
 
 import FunctionInventory from '../components/FunctionInventory';
 import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
 
 const Home = (): JSX.Element => {
-  const [sequence, setSequence] = useState('');
-  const [functions, setFunctions] = useState('');
-  const [showEditor, setShowEditor] = useState(false);
+  //const [sequence, setSequence] = useState('');
+  //const [functions, setFunctions] = useState('');
 
-  const [funcToEdit, setFuncToEdit] = useState({
-    name: 'Name',
-    description: 'Description',
-    id: '',
-    definition: '',
-  });
+  // const [funcToEdit, setFuncToEdit] = useState({
+  //   name: 'Name',
+  //   description: 'Description',
+  //   id: '',
+  //   definition: '',
+  // });
 
   const [flowState, setflowState] = useState('');
   const sequenceChange = (el) => {
-    setSequence(el);
-    setFunctions('');
-  };
-
-  const toggleFuncEditor = () => {
-    setShowEditor(!showEditor);
+    //setSequence(el);
+    //setFunctions('');
   };
 
   const functionsChange = (el) => setFunctions(el);
@@ -43,7 +36,7 @@ const Home = (): JSX.Element => {
         body: JSON.stringify(flow),
       }
     );
-    if (res.status == 200) {
+    if (res.status === 200) {
       console.log('Saved Succesfully');
       setflowState(flow);
     }
@@ -58,28 +51,24 @@ const Home = (): JSX.Element => {
             lg={3}
             style={{ background: '#134074', height: '100vh' }}
           >
-            <FlowButtons onClick={sequenceChange} sequence={sequence} />
+            <FlowButtons />
             <hr />
             <FunctionInventory
-              onClick={functionsChange}
-              functions={functions}
-              toggleFuncEditor={toggleFuncEditor}
+            // onClick={functionsChange}
+            // functions={functions}
+            // toggleFuncEditor={toggleFuncEditor}
             />
             {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
           </Col>
           <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4 main">
             <BasicFlow
-              type={sequence}
-              functionNames={functions}
+              // type={sequence}
+              // functionNames={functions}
               onSave={onSaveClick}
             />
             <Execution compositionName={flowState.name} />
           </Col>
-          <FuncEditor
-            show={showEditor}
-            funcToEdit={funcToEdit}
-            toggle={toggleFuncEditor}
-          />
+          <FuncEditor />
         </Row>
       </Container>
     </div>

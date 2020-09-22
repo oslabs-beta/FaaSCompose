@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import {
+  Button, Container, Row, Col, Card,
+} from 'react-bootstrap';
 import functionsStructure from '../data/users/functions.json';
 
 const FunctionButtons = (props): JSX.Element => {
@@ -19,7 +21,7 @@ const FunctionButtons = (props): JSX.Element => {
           variant="outline-light"
           block
           onClick={() => props.onClick(buttons[button].name)}
-          active={button == props.functions ? true : false}
+          active={button == props.functions}
         >
           {buttons[button].name}
         </Button>

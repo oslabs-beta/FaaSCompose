@@ -1,9 +1,16 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
+import { nanoid } from 'nanoid';
 
-const FuncEditor = (props): JSX.Element => {
+import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
+import { addFunc } from '../store/reducers/functionsReducer';
+
+const FuncEditor = (): JSX.Element => {
   const [isEditorReady, setIsEditorReady] = useState(false);
+  const dispatch = useDispatch();
+  const editorView = useSelector(selectShow);
 
   // This is to get value of text in editor
   const valueGetter = useRef();
@@ -13,39 +20,42 @@ const FuncEditor = (props): JSX.Element => {
     valueGetter.current = _valueGetter;
   };
 
+  function dispatchToggleFuncEditor() {
+    dispatch(toggleFuncEditor());
+  }
+
   // Add function method, runs when "Add Function" button pressed
-  const addFunc = () => {
-    const id = String(Math.floor(Math.random() * 1000));
+  const addFuncToReduxAndBackend = () => {
+    const id = String(nanoid());
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;
-    // get description of function from form
+    // get description of functi on from form
     const description = (document.getElementById(
       'description'
     ) as HTMLTextAreaElement).value;
     // Create object to hold new function with all values set
     const newFuncObj = {
-      name: name,
-      id: id,
-      description: description,
+      name,
+      id,
+      description,
       // This gets the value from the Editor
       definition: valueGetter.current(),
     };
-
+    dispatch(addFunc(newFuncObj));
     fetch('/api/functions/upsert-function', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newFuncObj),
-    }).then(function (response) {
-      console.log(response);
-      setTimeout(function () {
-        props.toggle();
+    }).then(() => {
+      setTimeout(() => {
+        dispatchToggleFuncEditor();
       }, 1000);
     });
   };
 
   return (
-    <Modal show={props.show}>
+    <Modal show={editorView}>
       <Modal.Header>
         <h5>Function Editor</h5>
       </Modal.Header>
@@ -60,22 +70,22 @@ const FuncEditor = (props): JSX.Element => {
         />
         <Form className="mt-4">
           <Form.Label>Function Name:</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder={props.funcToEdit.name}
-            id="name"
-          ></Form.Control>
+          <Form.Control type="text" placeholder="Name" id="name"></Form.Control>
           <Form.Label>Function Description:</Form.Label>
           <Form.Control
             type="text"
-            placeholder={props.funcToEdit.description}
+            placeholder="Description"
             id="description"
           ></Form.Control>
 
-          <Button variant="primary" className="mt-3 mr-3" onClick={addFunc}>
+          <Button
+            variant="primary"
+            className="mt-3 mr-3"
+            onClick={addFuncToReduxAndBackend}
+          >
             Add Function
           </Button>
-          <Button onClick={props.toggle} className="mt-3 mr-3">
+          <Button onClick={dispatchToggleFuncEditor} className="mt-3 mr-3">
             Close
           </Button>
         </Form>
