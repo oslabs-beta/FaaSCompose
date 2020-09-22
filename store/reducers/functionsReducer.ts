@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { type } from 'os';
 
 type TState = {
   currentFuncs: TFuncsInventory;
+  clickedFunc: string;
 };
 
 interface TFunc {
@@ -21,12 +23,16 @@ type TActionAddFunc = {
   payload: TFunc;
   type: string;
 };
+type TActionSetCurrentFunc = {
+  payload: string;
+  type: string;
+};
 
 const functionsSlice = createSlice({
   name: 'functions',
   initialState: {
     currentFuncs: {},
-    currentSelectedFunc: '',
+    clickedFunc: '',
   },
   reducers: {
     setFuncs: (state: TState, action: TActionSetFuncs) => {
@@ -35,8 +41,8 @@ const functionsSlice = createSlice({
     addFunc: (state: TState, action: TActionAddFunc) => {
       state.currentFuncs[action.payload.name] = action.payload;
     },
-    setCurrentFunc: (state, action) => {
-      state.currentSelectedFunc = action.payload;
+    setCurrentFunc: (state: TState, action: TActionSetCurrentFunc) => {
+      state.clickedFunc = action.payload;
     },
   },
 });
@@ -44,8 +50,7 @@ const functionsSlice = createSlice({
 export const selectFuncs = (state): TFuncsInventory =>
   state.functions.currentFuncs;
 
-export const selectCurrent = (state): string =>
-  state.functions.currentSelectedFunc;
+export const selectClickedFunc = (state): string => state.functions.clickedFunc;
 
 export const { setFuncs, addFunc, setCurrentFunc } = functionsSlice.actions;
 
