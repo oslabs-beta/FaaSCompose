@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { StoreState } from '../store';
 
 type TActionSetFlowRendererNodeId = {
   payload: string;
@@ -27,7 +28,7 @@ const canvasSlice = createSlice({
 });
 
 //export const selectNodes = (state): object => state.canvas.nodes;
-export const selectFlowRendererNodeId = (state): string =>
+export const selectFlowRendererNodeId = (state: StoreState): string =>
   state.canvas.flowRendererNodeId;
 //export const selectNodeName = (state): object => state.canvas.nodes;
 
