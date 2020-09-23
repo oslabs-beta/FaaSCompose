@@ -17,8 +17,7 @@ const LoginDeploy = (props): JSX.Element => {
   let inputFromForm: string;
 
   const dispatchSetUserInput = (payload) => dispatch(setUserInput(payload));
-  const dispatchSetCompositionOutput = (payload) =>
-    dispatch(setCompositionOutput(payload));
+  const dispatchSetCompositionOutput = (payload) => dispatch(setCompositionOutput(payload));
 
   const handleInputChange = (formInput) => {
     inputFromForm = formInput.json;
@@ -27,7 +26,7 @@ const LoginDeploy = (props): JSX.Element => {
   const handleClick = async () => {
     setOutputText('loading...');
     try {
-      const resLogin = await fetch(`http://localhost:3000/api/ibm/login`, {
+      const resLogin = await fetch('http://localhost:3000/api/ibm/login', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -37,10 +36,10 @@ const LoginDeploy = (props): JSX.Element => {
         {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
-        }
+        },
       );
       const deployOutputText = await resDeploy.text();
-      let finalOutput = loginOutputText + '\n' + deployOutputText;
+      let finalOutput = `${loginOutputText}\n${deployOutputText}`;
       finalOutput = finalOutput.replace(/\n/g, '<br />');
       setOutputText(finalOutput);
     } catch (error) {

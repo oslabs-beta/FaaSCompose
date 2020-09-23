@@ -16,6 +16,7 @@ const executionSlice = createSlice({
     output: `{
       "Result": "Click execute to get the result of your platform specific composition"
     }`,
+    compositionName: '',
   },
   reducers: {
     setComposition: (state, action: Action) => {
@@ -27,6 +28,9 @@ const executionSlice = createSlice({
     setCompositionOutput: (state, action: Action) => {
       state.output = action.payload;
     },
+    setCompositionName: (state, action: Action) => {
+      state.compositionName = action.payload;
+    },
   },
 });
 
@@ -36,11 +40,14 @@ export const selectUserInput = (state: StoreState): string =>
   state.execution.input;
 export const selectCompositionOutput = (state: StoreState): string =>
   state.execution.output;
+export const selectCompositionName = (state: StoreState): string =>
+  state.execution.compositionName;
 
 export const {
   setComposition,
   setUserInput,
   setCompositionOutput,
+  setCompositionName,
 } = executionSlice.actions;
 
 export default executionSlice.reducer;

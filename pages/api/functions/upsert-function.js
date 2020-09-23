@@ -15,16 +15,19 @@ export default (req, res) => {
   // Take req.body (which should be ALL functions) and overwrite functions.json with that
 
   const functions = JSON.parse(fs.readFileSync(filePath));
-  const { name, description, definition, id } = req.body;
-  functions[name] = { name, id, description, definition };
+  const {
+    name, description, definition, id,
+  } = req.body;
+  functions[name] = {
+    name, id, description, definition,
+  };
 
-  fs.writeFile(filePath, JSON.stringify(functions), function (err) {
+  fs.writeFile(filePath, JSON.stringify(functions), (err) => {
     if (err) {
       res.statusCode = 500;
       return res.send('Error in add-function: ', err);
-    } else {
-      res.statusCode = 200;
-      return res.send('Function added successfully!');
     }
+    res.statusCode = 200;
+    return res.send('Function added successfully!');
   });
 };
