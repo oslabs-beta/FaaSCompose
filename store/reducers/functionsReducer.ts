@@ -33,7 +33,12 @@ const functionsSlice = createSlice({
   initialState: {
     currentFuncs: {},
     clickedFunc: '',
-    funcToEdit: {},
+    funcToEdit: {
+      id: '',
+      name: 'Name',
+      description: 'Description',
+      definition: '// write your function here',
+    },
   },
   reducers: {
     setFuncs: (state: TState, action: TActionSetFuncs) => {
@@ -43,8 +48,8 @@ const functionsSlice = createSlice({
       state.currentFuncs[action.payload.name] = action.payload;
     },
     setFuncToEdit: (state: TState, action: TActionAddFunc) => {
-      console.log('editing: ', action.payload);
       state.funcToEdit = action.payload;
+      console.log('editing: ', state.funcToEdit);
     },
     setCurrentFunc: (state: TState, action: TActionSetCurrentFunc) => {
       state.clickedFunc = action.payload;
@@ -56,6 +61,8 @@ export const selectFuncs = (state): TFuncsInventory =>
   state.functions.currentFuncs;
 
 export const selectClickedFunc = (state): string => state.functions.clickedFunc;
+
+export const selectFuncToEdit = (state): TFunc => state.functions.funcToEdit;
 
 export const {
   setFuncs,

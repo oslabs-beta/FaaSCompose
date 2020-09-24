@@ -15,6 +15,7 @@ const FuncEditor = (): JSX.Element => {
   // This is to get value of text in editor
   const valueGetter = useRef();
 
+  // console.log('Description: ', funcToEdit.description);
   const handleEditorDidMount = (_valueGetter) => {
     setIsEditorReady(true);
     valueGetter.current = _valueGetter;
@@ -64,7 +65,7 @@ const FuncEditor = (): JSX.Element => {
           height="300px"
           width="450px"
           language="javascript"
-          value={'// write your function here'}
+          value={funcToEdit.definition}
           theme="dark"
           editorDidMount={handleEditorDidMount}
         />

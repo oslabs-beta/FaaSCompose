@@ -97,7 +97,7 @@ const FunctionInventory = () => {
                   id: '',
                   name: 'Name',
                   description: 'Description',
-                  definition: '',
+                  definition: '// write your function here',
                 })
               );
               dispatchToggleFuncEditor();
