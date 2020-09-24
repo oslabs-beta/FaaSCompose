@@ -53,6 +53,7 @@ const FunctionInventory = () => {
           borderRadius: '4px',
         }}
         className="mt-2"
+        key={currentFuncs[func].id}
         onClick={() => {
           dispatch(setCurrentFunc(func));
         }}
