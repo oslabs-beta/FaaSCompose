@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
@@ -16,6 +16,7 @@ import {
   setFuncs,
   selectFuncs,
   setCurrentFunc,
+  setFuncToEdit,
 } from '../store/reducers/functionsReducer';
 
 const FunctionInventory = () => {
@@ -68,7 +69,7 @@ const FunctionInventory = () => {
         </OverlayTrigger>
         <FontAwesomeIcon
           onClick={() => {
-            alert('Edit clicked!');
+            dispatch(setFuncToEdit(currentFuncs[func]));
           }}
           icon={faEdit}
           className="icon float-right"
@@ -78,7 +79,7 @@ const FunctionInventory = () => {
   }
 
   return (
-    <div>
+    <div id="function-inventory">
       <Card style={{ background: '#FFF4EC' }}>
         <Card.Body>
           <Card.Title>Cloud Function Inventory</Card.Title>
