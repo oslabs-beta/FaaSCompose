@@ -5,13 +5,13 @@ import Editor from '@monaco-editor/react';
 import { nanoid } from 'nanoid';
 
 import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
-import { addFunc } from '../store/reducers/functionsReducer';
+import { addFunc, selectFuncToEdit } from '../store/reducers/functionsReducer';
 
 const FuncEditor = (): JSX.Element => {
   const [isEditorReady, setIsEditorReady] = useState(false);
   const dispatch = useDispatch();
   const editorView = useSelector(selectShow);
-
+  const funcToEdit = useSelector(selectFuncToEdit);
   // This is to get value of text in editor
   const valueGetter = useRef();
 
@@ -70,11 +70,15 @@ const FuncEditor = (): JSX.Element => {
         />
         <Form className="mt-4">
           <Form.Label>Function Name:</Form.Label>
-          <Form.Control type="text" placeholder="Name" id="name"></Form.Control>
+          <Form.Control
+            type="text"
+            defaultValue={funcToEdit.name}
+            id="name"
+          ></Form.Control>
           <Form.Label>Function Description:</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Description"
+            defaultValue={funcToEdit.description}
             id="description"
           ></Form.Control>
 

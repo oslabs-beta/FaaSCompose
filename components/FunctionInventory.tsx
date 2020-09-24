@@ -54,9 +54,10 @@ const FunctionInventory = () => {
         }}
         className="mt-2"
         key={currentFuncs[func].id}
-        onClick={() => {
-          dispatch(setCurrentFunc(func));
-        }}
+        // onClick={() => {
+        //   dispatch(setCurrentFunc(func));
+        //   dispatchToggleFuncEditor();
+        // }}
       >
         <OverlayTrigger
           placement="right"
@@ -71,6 +72,7 @@ const FunctionInventory = () => {
         <FontAwesomeIcon
           onClick={() => {
             dispatch(setFuncToEdit(currentFuncs[func]));
+            dispatchToggleFuncEditor();
           }}
           icon={faEdit}
           className="icon float-right"
@@ -89,7 +91,17 @@ const FunctionInventory = () => {
           <Button
             variant="primary"
             className="mt-4"
-            onClick={dispatchToggleFuncEditor}
+            onClick={() => {
+              dispatch(
+                setFuncToEdit({
+                  id: '',
+                  name: 'Name',
+                  description: 'Description',
+                  definition: '',
+                })
+              );
+              dispatchToggleFuncEditor();
+            }}
           >
             New Function
           </Button>
