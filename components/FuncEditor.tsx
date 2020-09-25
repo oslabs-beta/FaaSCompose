@@ -57,7 +57,7 @@ const FuncEditor = (): JSX.Element => {
     }).then(() => {
       setTimeout(() => {
         dispatchToggleFuncEditor();
-      }, 1000);
+      }, 800);
     });
   };
 
@@ -94,7 +94,7 @@ const FuncEditor = (): JSX.Element => {
             className="mt-3 mr-3"
             onClick={addFuncToReduxAndBackend}
           >
-            Add Function
+            {funcToEdit.id ? 'Update Function' : 'Add Function'}
           </Button>
           <Button onClick={dispatchToggleFuncEditor} className="mt-3 mr-3">
             Close
