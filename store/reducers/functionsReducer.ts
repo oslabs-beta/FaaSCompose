@@ -45,7 +45,7 @@ const functionsSlice = createSlice({
       state.currentFuncs = action.payload;
     },
     addFunc: (state: TState, action: TActionAddFunc) => {
-      state.currentFuncs[action.payload.name] = action.payload;
+      state.currentFuncs[action.payload.id] = action.payload;
     },
     setFuncToEdit: (state: TState, action: TActionAddFunc) => {
       state.funcToEdit = action.payload;

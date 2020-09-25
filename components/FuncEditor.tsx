@@ -57,7 +57,7 @@ const FuncEditor = (): JSX.Element => {
     }).then(() => {
       setTimeout(() => {
         dispatchToggleFuncEditor();
-      }, 800);
+      }, 500);
     });
   };
 

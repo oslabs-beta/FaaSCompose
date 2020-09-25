@@ -22,6 +22,7 @@ import {
 const FunctionInventory = () => {
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
+  console.log('currentFuncs: ', currentFuncs);
   const funcs = [];
 
   function dispatchToggleFuncEditor() {
