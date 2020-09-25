@@ -27,7 +27,13 @@ const FuncEditor = (): JSX.Element => {
 
   // Add function method, runs when "Add Function" button pressed
   const addFuncToReduxAndBackend = () => {
-    const id = String(nanoid());
+    let id;
+    if (funcToEdit.id) {
+      id = funcToEdit.id;
+    } else {
+      id = String(nanoid());
+    }
+
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;
     // get description of functi on from form
     const description = (document.getElementById(

@@ -54,10 +54,9 @@ const FunctionInventory = () => {
         }}
         className="mt-2"
         key={currentFuncs[func].id}
-        // onClick={() => {
-        //   dispatch(setCurrentFunc(func));
-        //   dispatchToggleFuncEditor();
-        // }}
+        onClick={() => {
+          dispatch(setCurrentFunc(func));
+        }}
       >
         <OverlayTrigger
           placement="right"
