@@ -49,7 +49,6 @@ const functionsSlice = createSlice({
     },
     setFuncToEdit: (state: TState, action: TActionAddFunc) => {
       state.funcToEdit = action.payload;
-      console.log('editing: ', state.funcToEdit);
     },
     setCurrentFunc: (state: TState, action: TActionSetCurrentFunc) => {
       state.clickedFunc = action.payload;
