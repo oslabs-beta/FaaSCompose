@@ -52,7 +52,8 @@ const FuncEditor = (): JSX.Element => {
       definition: valueGetter.current(),
     };
     dispatch(addFunc(newFuncObj));
-    dispatch(setCurrentFunc(newFuncObj.name));
+    if (funcToEdit.id) dispatch(setCurrentFunc(newFuncObj.name));
+
     fetch('/api/functions/upsert-function', {
       method: 'post',
       headers: {
