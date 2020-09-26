@@ -15,7 +15,7 @@ export default (req, res) => {
   const {
     query: { compositionName },
   } = req;
-  let ibmInvokeCmd = `ibmcloud fn action invoke --result ${compositionName}`;
+  let ibmInvokeCmd = `ibmcloud fn action invoke ${compositionName}`;
   // get parameters, if any received in the body
   if (req.body != null) {
     const { body } = req;
@@ -28,15 +28,28 @@ export default (req, res) => {
   console.log('ibm function invoke cmd', ibmInvokeCmd);
   shell.exec(ibmInvokeCmd, (code, stdout, stderr) => {
     console.log('ibm function invoke Exit code:', code);
-    console.log('ibm function invoke stdout:', stdout);
-    console.log('ibm function invoke stdout:', stdout);
+    console.log('ibm function invoke stdout:', stderr);
+    console.log('ibm function invoke stderr:', stdout);
     // check code and stdout and stderr
     if (code !== 0) {
       res.statusCode = 500;
       res.send(stderr);
     } else {
-      res.statusCode = 200;
-      res.send(stdout);
+      const results = stdout.split(' ');
+      const resultGuid = results[results.length - 1];
+      const ibmInvokeDetailCmd = `ibmcloud fn activation get ${resultGuid}`;
+      shell.exec(ibmInvokeDetailCmd, (code, stdout, stderr) => {
+        console.log('ibm function invoke detailed Exit code:', code);
+        console.log('ibm function invoke detailed stdout:', stdout);
+        console.log('ibm function invoke detailed stderr:', stderr);
+        if (code !== 0) {
+          res.statusCode = 500;
+          res.send(stderr);
+        } else {
+          res.statusCode = 200;
+          res.json(stdout);
+        }
+      });
     }
   });
 };

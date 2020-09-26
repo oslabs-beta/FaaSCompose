@@ -1,1 +1,5 @@
-{"if":"true"}
+{
+  "name": "demo",
+  "type": "sequence",
+  "func": ["success authenticate", "Hello World"]
+}

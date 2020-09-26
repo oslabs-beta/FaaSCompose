@@ -5,6 +5,7 @@ export type ExecutionStateType = {
   composition: string;
   input: string;
   output: string;
+  compositionName: string;
 };
 
 export type GlobalState = {
@@ -22,6 +23,7 @@ const executionSlice = createSlice({
     output: `{
       "Result": "Click execute to get the result of your platform specific composition"
     }`,
+    compositionName: '',
   },
   reducers: {
     setComposition: (state, action) => {
@@ -33,6 +35,9 @@ const executionSlice = createSlice({
     setCompositionOutput: (state, action) => {
       state.output = action.payload;
     },
+    setCompositionName: (state, action) => {
+      state.compositionName = action.payload;
+    },
   },
 });
 
@@ -42,11 +47,14 @@ export const selectUserInput = (state: GlobalState): string =>
   state.execution.input;
 export const selectCompositionOutput = (state: GlobalState): string =>
   state.execution.output;
+export const selectCompositionName = (state: GlobalState): string =>
+  state.execution.compositionName;
 
 export const {
   setComposition,
   setUserInput,
   setCompositionOutput,
+  setCompositionName,
 } = executionSlice.actions;
 
 export default executionSlice.reducer;

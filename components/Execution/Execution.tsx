@@ -2,13 +2,16 @@ import CloudProvidersDropdown from './CloudProvidersDropdown';
 import PlatformSpecific from './PlatformSpecific';
 import UserInput from './UserInput';
 import CompositionResult from './CompositionResult';
+import LoginDeploy from './LoginDeploy';
 
-const Execution = (): JSX.Element => (
+const Execution = (props): JSX.Element => (
   <>
-    <h3>Execution</h3>
-    <CloudProvidersDropdown />
+    <hr />
+    <h5>Execution</h5>
+    <CloudProvidersDropdown compositionName={props.compositionName} />
     <PlatformSpecific />
-    <UserInput />
+    <LoginDeploy compositionName={props.compositionName} />
+    <UserInput compositionName={props.compositionName} />
     <CompositionResult />
   </>
 );

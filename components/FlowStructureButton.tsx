@@ -1,54 +1,41 @@
-import React, {useState,useEffect, useReducer, useContext, createContext} from 'react';
-import {Button, Container, Row, Col, Card} from 'react-bootstrap';
-import flowStructure from '../data/flowStructures.json';
+import { nanoid } from 'nanoid';
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+//import flowStructure from '../data/flowStructures.json';
+import { useSelector, useDispatch } from 'react-redux';
 
+import {
+  selectSequence,
+  changeCurrent,
+  selectCurrentSequence,
+} from '../store/reducers/sequenceReducer';
 
-const FlowButtons = (props): JSX.Element => {
-const [buttons, setButtons]=useState(flowStructure);
-//const [error, setError] = useState(null);
-//const [isLoading, setLoading] = useState(true);
-
-// useEffect(()=>{
-//   const fetchData = async () => {
-//     setLoading(true)
-//     try{
-//       const response = await fetch(`./data/flowStructures.json`) 
-//       const json = await response.json()
-//       setButtons(json)
-//     }catch(e){
-//       setError(e)
-//     }
-//     setLoading(false)
-//   }
-//   fetchData();
-// }, [buttons]);
-
-// useEffect(()=>{
-//   setButtons(flowStructure);
-// }, [buttons]);
-  // const handleClick=(e)=>{ 
-  //   console.log('hi from click',seq);
-  //  // onClick(e.target['sequence']);
-  // };
+const FlowButtons = (): JSX.Element => {
+  const sequence = useSelector(selectSequence);
+  const selectedCurrentSequence = useSelector(selectCurrentSequence);
+  const dispatch = useDispatch();
 
   return (
     <>
-    <h2 className='mt-4' style={{color:'#fff', fontSize:24}}>Choose a flow</h2>
-    {
-      
-      Object.keys(buttons).map(button=> (
-      <Button 
-      key={buttons[button].id} 
-      variant="secondary" size="lg" variant="outline-light" block 
-      onClick={()=>props.onClick(button)}
-      active={button==props.sequence ? true :false} 
-     >
-        {buttons[button].display}
-      </Button>))
-    }
+      <h2 className="mt-4" style={{ color: '#fff', fontSize: 24 }}>
+        Choose a flow
+      </h2>
+      {sequence['list'].map((button) => (
+        <Button
+          key={nanoid()}
+          variant="outline-light secondary "
+          size="lg"
+          block
+          onClick={() => {
+            dispatch(changeCurrent(button));
+          }}
+          active={button == selectedCurrentSequence}
+        >
+          {button}
+        </Button>
+      ))}
     </>
-  )
+  );
 };
 
 export default FlowButtons;
-

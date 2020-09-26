@@ -9,14 +9,13 @@ import {
   setCompositionOutput,
 } from '../../store/reducers/executionReducer';
 
-const UserInput = (): JSX.Element => {
+const UserInput = (props): JSX.Element => {
   const dispatch = useDispatch();
   const userInput = useSelector(selectUserInput);
   let inputFromForm: string;
 
   const dispatchSetUserInput = (payload) => dispatch(setUserInput(payload));
-  const dispatchSetCompositionOutput = (payload) =>
-    dispatch(setCompositionOutput(payload));
+  const dispatchSetCompositionOutput = (payload) => dispatch(setCompositionOutput(payload));
 
   const handleInputChange = (formInput) => {
     inputFromForm = formInput.json;
@@ -28,11 +27,14 @@ const UserInput = (): JSX.Element => {
     };
     dispatchSetUserInput(inputFromForm);
     try {
-      const res = await fetch('http://localhost:3000/api/ibm/invoke/demo', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: inputFromForm,
-      });
+      const res = await fetch(
+        `http://localhost:3000/api/ibm/invoke/${props.compositionName}`,
+        {
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
+          body: inputFromForm,
+        },
+      );
       const outputJSON = await res.json();
       dispatchSetCompositionOutput(JSON.stringify(outputJSON));
     } catch (error) {
@@ -44,20 +46,24 @@ const UserInput = (): JSX.Element => {
   return (
     <>
       <h5>Input</h5>
-      <span>{userInput}</span>
-      <div className="inline">
+      <div>
         <JSONInput
-          // placeholder={} // data to display
+          placeholder={{ password: '' }} // data to display
           theme="light_mitsuketa_tribute"
           locale={locale}
           colors={{
             string: '#DAA520', // overrides theme colors with whatever color value you want
           }}
           height="80px"
+          width="100%"
           onChange={handleInputChange}
         />
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <Button variant="outline-primary" onClick={handleClick}>
+
+        <Button
+          className="mt-2 mb-2"
+          variant="outline-primary"
+          onClick={handleClick}
+        >
           Execute
         </Button>
 
