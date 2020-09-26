@@ -1,5 +1,5 @@
 import { createMocks } from 'node-mocks-http';
-import handleSave from '../pages/api/composition/agnosticsave/[compositionName]';
+import handleSave from '../pages/api/composition/agnosticsave/[compositionname]';
 const fs = require('fs');
 
 jest.mock('fs');
@@ -13,7 +13,7 @@ describe('/api/composition/agnosticsave/[compositionName]', () => {
     const { req, res } = createMocks({
       method: 'POST',
       query: {
-        compositionName: 'demo',
+        compositionname: 'demo',
       },
     });
 
@@ -36,11 +36,11 @@ describe('/api/composition/agnosticsave/[compositionName]', () => {
     );
   });
   it('returns status code 200 if passed a body and composition name', async () => {
-    const compositionName = 'demo';
+    const compositionname = 'demo';
     const { req, res } = createMocks({
       method: 'POST',
       query: {
-        compositionName: compositionName,
+        compositionname: compositionname,
       },
       body: { name: 'name' },
     });
@@ -50,7 +50,7 @@ describe('/api/composition/agnosticsave/[compositionName]', () => {
     expect(res._getStatusCode()).toBe(200);
     expect(fs.writeFile).toHaveBeenCalled();
     expect(fs.writeFile.mock.calls[0][0]).toContain(
-      `${compositionName}-agnostic.json`
+      `${compositionname}-agnostic.json`
     );
   });
 });
