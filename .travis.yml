@@ -5,9 +5,11 @@ addons:
   sonarcloud:
     organization: 'jpascas' # the key of the org you chose at step #3
     token: '$SONAR_TOKEN' # encrypted value of your token
-after_success:
-  - npm build
+#after_success:
+#  - npm build
 
 script:
   # other script steps might be done before running the actual analysis
+  - npm build
+  - npm run test
   - sonar-scanner
