@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type TState = {
   currentFuncs: TFuncsInventory;
-  clickedFunc: string;
+  clickedFunc: object;
   funcToEdit: TFunc;
 };
 
@@ -25,14 +25,14 @@ type TActionAddFunc = {
 };
 type TActionSetCurrentFunc = {
   payload: string;
-  type: string;
+  type: object;
 };
 
 const functionsSlice = createSlice({
   name: 'functions',
   initialState: {
     currentFuncs: {},
-    clickedFunc: '',
+    clickedFunc: { id: '', name: '' },
     funcToEdit: {
       id: '',
       name: 'Name',
@@ -59,7 +59,7 @@ const functionsSlice = createSlice({
 export const selectFuncs = (state): TFuncsInventory =>
   state.functions.currentFuncs;
 
-export const selectClickedFunc = (state): string => state.functions.clickedFunc;
+export const selectClickedFunc = (state): object => state.functions.clickedFunc;
 
 export const selectFuncToEdit = (state): TFunc => state.functions.funcToEdit;
 
