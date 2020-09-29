@@ -22,7 +22,6 @@ import {
 const FunctionInventory = () => {
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
-  console.log('currentFuncs: ', currentFuncs);
   const funcs = [];
 
   function dispatchToggleFuncEditor() {
@@ -56,7 +55,12 @@ const FunctionInventory = () => {
         className="mt-2"
         key={currentFuncs[func].id}
         onClick={() => {
-          dispatch(setCurrentFunc(func));
+          dispatch(
+            setCurrentFunc({
+              id: currentFuncs[func].id,
+              name: currentFuncs[func].name,
+            })
+          );
         }}
       >
         <OverlayTrigger

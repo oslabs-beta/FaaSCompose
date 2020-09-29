@@ -5,7 +5,11 @@ import Editor from '@monaco-editor/react';
 import { nanoid } from 'nanoid';
 
 import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
-import { addFunc, selectFuncToEdit } from '../store/reducers/functionsReducer';
+import {
+  addFunc,
+  selectFuncToEdit,
+  setCurrentFunc,
+} from '../store/reducers/functionsReducer';
 
 const FuncEditor = (): JSX.Element => {
   const [isEditorReady, setIsEditorReady] = useState(false);
@@ -48,6 +52,8 @@ const FuncEditor = (): JSX.Element => {
       definition: valueGetter.current(),
     };
     dispatch(addFunc(newFuncObj));
+    if (funcToEdit.id) dispatch(setCurrentFunc(newFuncObj.name));
+
     fetch('/api/functions/upsert-function', {
       method: 'post',
       headers: {
