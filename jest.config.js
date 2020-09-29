@@ -6,8 +6,7 @@ module.exports = {
   testMatch: ['**/*.(test|spec).(ts|tsx|js)'],
   globals: {
     'ts-jest': {
-      useBabelrc: true,
-      tsConfigFile: 'jest.tsconfig.json',
+      babelConfig: '.babelrc',
       tsConfig: 'jest.tsconfig.json',
     },
   },
