@@ -204,10 +204,12 @@ export const combineResult = (name, flowType, nodes) => {
       node.data !== undefined &&
       node.data.label !== 'Start' &&
       node.data.label !== 'End'
-        ? node.data.label
+        ? node
         : ''
     )
-    .map((e) => e.data.label);
+    .map((e) => {
+      return e.data.funcID;
+    });
   return { name, type: flowType, func: tempFunc };
 };
 
@@ -240,7 +242,10 @@ const BasicFlow = (props) => {
   let updateFunction = () => {
     let newState = nodes.map((node) => {
       if (node.id == selectedFlowRendererNodeId) {
-        node.data = { label: selectedFunctions };
+        node.data = {
+          label: selectedFunctions.name,
+          funcID: selectedFunctions.id,
+        };
         node.style = { background: '#8DA9C4' };
       }
       return node;
@@ -262,7 +267,7 @@ const BasicFlow = (props) => {
   );
   const onElementClick = (event, element) => {
     reduxDispatch(setFlowRendererNodeId(element.id));
-    reduxDispatch(setCurrentFunc(''));
+    reduxDispatch(setCurrentFunc({ id: '', name: '' }));
   };
 
   function changeCompositionName(name) {

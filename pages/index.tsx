@@ -8,7 +8,7 @@ import FlowButtons from '../components/FlowStructureButton';
 import FunctionInventory from '../components/FunctionInventory';
 import FuncEditor from '../components/FuncEditor';
 import Execution from '../components/Execution/Execution';
-import Nav from '../components/Authentication';
+import Nav from '../components/Nav';
 
 const Home = (): JSX.Element => {
   //const [sequence, setSequence] = useState('');
