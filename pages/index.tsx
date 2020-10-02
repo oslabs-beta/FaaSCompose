@@ -1,4 +1,3 @@
-// import Head from 'next/head';
 import { Container, Row, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -11,22 +10,8 @@ import Execution from '../components/Execution/Execution';
 import Nav from '../components/Nav';
 
 const Home = (): JSX.Element => {
-  //const [sequence, setSequence] = useState('');
-  //const [functions, setFunctions] = useState('');
-
-  // const [funcToEdit, setFuncToEdit] = useState({
-  //   name: 'Name',
-  //   description: 'Description',
-  //   id: '',
-  //   definition: '',
-  // });
-
   const [flowState, setflowState] = useState('');
-  const sequenceChange = (el) => {
-    //setSequence(el);
-    //setFunctions('');
-  };
-
+  console.log(process.env.NEXTAUTH_URL);
   const functionsChange = (el) => setFunctions(el);
   const onSaveClick = async (flow) => {
     const res = await fetch(
@@ -55,19 +40,10 @@ const Home = (): JSX.Element => {
           >
             <FlowButtons />
             <hr />
-            <FunctionInventory
-            // onClick={functionsChange}
-            // functions={functions}
-            // toggleFuncEditor={toggleFuncEditor}
-            />
-            {/* <FunctionButtons  onClick={functionsChange} functions={functions}/> */}
+            <FunctionInventory />
           </Col>
           <Col xs={9} md={9} lg={7} className="mt-5 ml-4 mr-4 main">
-            <BasicFlow
-              // type={sequence}
-              // functionNames={functions}
-              onSave={onSaveClick}
-            />
+            <BasicFlow onSave={onSaveClick} />
             <Execution compositionName={flowState.name} />
           </Col>
           <FuncEditor />
