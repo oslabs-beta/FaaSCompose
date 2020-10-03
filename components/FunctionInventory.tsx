@@ -18,7 +18,7 @@ import {
   setCurrentFunc,
 } from '../store/reducers/functionsReducer';
 
-const FunctionInventory = () => {
+const FunctionInventory = (): JSX.Element => {
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
   const funcs = [];
@@ -43,7 +43,7 @@ const FunctionInventory = () => {
     getFuncs();
   }, []);
 
-  for (let func in currentFuncs) {
+  for (const func in currentFuncs) {
     funcs.push(
       <ListGroupItem
         style={{
