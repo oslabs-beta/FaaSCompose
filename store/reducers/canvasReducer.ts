@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { StoreState } from '../store';
 
-type TActionSetFlowRendererNodeId = {
+type TActionFlowRendererNodeId = {
   payload: string;
   type: string;
 };
@@ -15,7 +15,7 @@ const canvasSlice = createSlice({
     // setNodes: (state, action) => {
     //   state.flowRendererNodeId = action.payload;
     // },
-    setFlowRendererNodeId: (state, action: TActionSetFlowRendererNodeId) => {
+    setFlowRendererNodeId: (state, action: TActionFlowRendererNodeId) => {
       state.flowRendererNodeId = action.payload;
     },
     // updateNodeName: (state, action) => {
