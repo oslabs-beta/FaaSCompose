@@ -1,17 +1,17 @@
 {
-  "authenticate": {
-    "id": "1",
+  "1": {
     "name": "authenticate",
+    "id": "1",
     "description": "function to authenticate users",
     "definition": "function ({ password }) { return { value: password === 'abc123' }"
   },
-  "success authenticate": {
+  "2": {
     "id": "2",
     "name": "success authenticate",
     "description": "function to authenticate users",
     "definition": "function () { return { message: 'success' }"
   },
-  "failure authenticate": {
+  "3": {
     "id": "3",
     "name": "failure authenticate",
     "description": "function to authenticate users",

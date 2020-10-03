@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
@@ -16,6 +16,7 @@ import {
   setFuncs,
   selectFuncs,
   setCurrentFunc,
+  setFuncToEdit,
 } from '../store/reducers/functionsReducer';
 
 const FunctionInventory = (): JSX.Element => {
@@ -52,8 +53,14 @@ const FunctionInventory = (): JSX.Element => {
           borderRadius: '4px',
         }}
         className="mt-2"
+        key={currentFuncs[func].id}
         onClick={() => {
-          dispatch(setCurrentFunc(func));
+          dispatch(
+            setCurrentFunc({
+              id: currentFuncs[func].id,
+              name: currentFuncs[func].name,
+            })
+          );
         }}
       >
         <OverlayTrigger
@@ -68,7 +75,8 @@ const FunctionInventory = (): JSX.Element => {
         </OverlayTrigger>
         <FontAwesomeIcon
           onClick={() => {
-            alert('Edit clicked!');
+            dispatch(setFuncToEdit(currentFuncs[func]));
+            dispatchToggleFuncEditor();
           }}
           icon={faEdit}
           className="icon float-right"
@@ -78,7 +86,7 @@ const FunctionInventory = (): JSX.Element => {
   }
 
   return (
-    <div>
+    <div id="function-inventory">
       <Card style={{ background: '#FFF4EC' }}>
         <Card.Body>
           <Card.Title>Cloud Function Inventory</Card.Title>
@@ -87,7 +95,17 @@ const FunctionInventory = (): JSX.Element => {
           <Button
             variant="primary"
             className="mt-4"
-            onClick={dispatchToggleFuncEditor}
+            onClick={() => {
+              dispatch(
+                setFuncToEdit({
+                  id: '',
+                  name: 'Name',
+                  description: 'Description',
+                  definition: '// write your function here',
+                })
+              );
+              dispatchToggleFuncEditor();
+            }}
           >
             New Function
           </Button>

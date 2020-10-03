@@ -3,7 +3,8 @@ import { StoreState } from '../store';
 
 type TState = {
   currentFuncs: TFuncsInventory;
-  clickedFunc: string;
+  clickedFunc: object;
+  funcToEdit: TFunc;
 };
 
 type TFunc = {
@@ -23,25 +24,34 @@ type TActionAddFunc = {
   payload: TFunc;
   type: string;
 };
-type TActionSetCurrentFunc = {
+type TActionCurrentFunc = {
   payload: string;
-  type: string;
+  type: object;
 };
 
 const functionsSlice = createSlice({
   name: 'functions',
   initialState: {
     currentFuncs: {},
-    clickedFunc: '',
+    clickedFunc: { id: '', name: '' },
+    funcToEdit: {
+      id: '',
+      name: 'Name',
+      description: 'Description',
+      definition: '// write your function here',
+    },
   },
   reducers: {
     setFuncs: (state: TState, action: TActionSetFuncs) => {
       state.currentFuncs = action.payload;
     },
     addFunc: (state: TState, action: TActionAddFunc) => {
-      state.currentFuncs[action.payload.name] = action.payload;
+      state.currentFuncs[action.payload.id] = action.payload;
     },
-    setCurrentFunc: (state: TState, action: TActionSetCurrentFunc) => {
+    setFuncToEdit: (state: TState, action: TActionAddFunc) => {
+      state.funcToEdit = action.payload;
+    },
+    setCurrentFunc: (state: TState, action: TActionCurrentFunc) => {
       state.clickedFunc = action.payload;
     },
   },
@@ -49,10 +59,16 @@ const functionsSlice = createSlice({
 
 export const selectFuncs = (state: StoreState): TFuncsInventory =>
   state.functions.currentFuncs;
-
-export const selectClickedFunc = (state: StoreState): string =>
+export const selectClickedFunc = (state: StoreState): object =>
   state.functions.clickedFunc;
+export const selectFuncToEdit = (state: StoreState): TFunc =>
+  state.functions.funcToEdit;
 
-export const { setFuncs, addFunc, setCurrentFunc } = functionsSlice.actions;
+export const {
+  setFuncs,
+  addFunc,
+  setCurrentFunc,
+  setFuncToEdit,
+} = functionsSlice.actions;
 
 export default functionsSlice.reducer;

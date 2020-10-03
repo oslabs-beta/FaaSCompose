@@ -4,15 +4,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import type { AppProps /* , AppContext */ } from 'next/app';
 
 import { Provider } from 'react-redux';
+import { Provider as AuthProvider } from 'next-auth/client';
 import store from '../store/store';
 import NavBar from '../components/NavBar';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function MyApp({ Component, pageProps }: AppProps) {
+  const { session } = pageProps;
   return (
-    <Provider store={store}>
-      <NavBar />
-      <Component {...pageProps} />
-    </Provider>
+    <AuthProvider session={session}>
+      <Provider store={store}>
+        <NavBar />
+        <Component {...pageProps} />
+      </Provider>
+    </AuthProvider>
   );
 }
 
