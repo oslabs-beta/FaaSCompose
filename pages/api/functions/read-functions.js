@@ -16,7 +16,8 @@ const readFunctionWithFiles = (req, res) => {
 export default async (req, res) => {
   const session = await getSession({ req });
   db.any(
-    'select functions.* from functions inner join users on functions.userid = users.id where users.name = $1',
+    `select functions.* from functions inner join users on 
+    functions.userid = users.id where users.name = $1`,
     session.user.name
   )
     .then((data) => {

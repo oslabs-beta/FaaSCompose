@@ -28,13 +28,15 @@ export default async (req, res) => {
         if (!id) {
           console.log('no ID');
           return t.any(
-            'INSERT INTO functions(name, description, definition, userid) VALUES($1, $2, $3, $4)',
+            `INSERT INTO functions(name, description, definition, userid) 
+            VALUES($1, $2, $3, $4)`,
             [name, description, definition, userid]
           );
         } else {
           console.log('ID exists');
           return t.any(
-            'UPDATE functions SET name = $1, description = $2, definition = $3 WHERE id = $4 AND userid = $5',
+            `UPDATE functions SET name = $1, description = $2, 
+            definition = $3 WHERE id = $4 AND userid = $5`,
             [name, description, definition, id, userid]
           );
         }
