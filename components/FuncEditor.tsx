@@ -2,8 +2,6 @@ import { useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
-import { nanoid } from 'nanoid';
-
 import { toggleFuncEditor, selectShow } from '../store/reducers/editorReducer';
 import {
   addFunc,
@@ -19,7 +17,6 @@ const FuncEditor = (): JSX.Element => {
   // This is to get value of text in editor
   const valueGetter = useRef();
 
-  // console.log('Description: ', funcToEdit.description);
   const handleEditorDidMount = (_valueGetter) => {
     setIsEditorReady(true);
     valueGetter.current = _valueGetter;

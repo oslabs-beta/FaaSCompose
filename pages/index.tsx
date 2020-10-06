@@ -1,7 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import { signin, signout, useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/client';
 import React, { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import BasicFlow from '../components/FlowChart-dynamic';
 import FlowButtons from '../components/FlowStructureButton';
 
@@ -11,9 +10,8 @@ import Execution from '../components/Execution/Execution';
 import Nav from '../components/Nav';
 
 const Home = (): JSX.Element => {
-  const [session, loading] = useSession();
+  const [session] = useSession();
   const [flowState, setflowState] = useState('');
-  console.log(process.env.NEXTAUTH_URL);
   const onSaveClick = async (flow) => {
     const res = await fetch(
       `http://localhost:3000/api/composition/agnosticsave/${flow.name}`,
