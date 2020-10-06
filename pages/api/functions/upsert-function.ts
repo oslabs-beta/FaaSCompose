@@ -1,6 +1,6 @@
-const fs = require('fs');
 import db from '../../../data/db';
 import { getSession } from 'next-auth/client';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export const config = {
   api: {
@@ -10,12 +10,9 @@ export const config = {
   },
 };
 
-export default async (req, res) => {
-  // Determine whether we are updating or inserting
-  // If there is an ID, we're inserting new function
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, description, definition, id } = req.body;
   const session = await getSession({ req });
-  console.log('SESSION NAME: ', session.user.name);
   db.task((t) => {
     return t
       .one(
@@ -24,15 +21,12 @@ export default async (req, res) => {
         (a) => a.id
       )
       .then((userid) => {
-        console.log('USERID: ', userid);
         if (!id) {
-          console.log('no ID');
           return t.any(
             'INSERT INTO functions(name, description, definition, userid) VALUES($1, $2, $3, $4)',
             [name, description, definition, userid]
           );
         } else {
-          console.log('ID exists');
           return t.any(
             'UPDATE functions SET name = $1, description = $2, definition = $3 WHERE id = $4 AND userid = $5',
             [name, description, definition, id, userid]
