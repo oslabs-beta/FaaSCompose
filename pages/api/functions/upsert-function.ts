@@ -13,14 +13,14 @@ export const config = {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, description, definition, id } = req.body;
   const session = await getSession({ req });
-  db.task((t) => {
+  db.task((t: any) => {
     return t
       .one(
         'SELECT id FROM users WHERE name = $1',
         session.user.name,
-        (a) => a.id
+        (a: { id: any }) => a.id
       )
-      .then((userid) => {
+      .then((userid: number) => {
         if (!id) {
           return t.any(
             'INSERT INTO functions(name, description, definition, userid) VALUES($1, $2, $3, $4)',
@@ -33,14 +33,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           );
         }
       })
-      .then((data) => {
+      .then(() => {
         res.statusCode = 200;
         return res.send('Function added successfully!');
       })
-      .catch((error) => {
+      .catch((error: string) => {
         console.log('ERROR: ', error);
         res.statusCode = 500;
-        return res.send('Error in add-function: ', error);
+        return res.send(`Error in add-function: ${error}`);
       });
   });
 };

@@ -2,15 +2,6 @@ import db from '../../../data/db';
 import { getSession } from 'next-auth/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// const readFunctionWithFiles = (req: NextApiRequest, res: NextApiResponse) => {
-//   const directory = path.join(process.cwd(), 'data/users');
-//   const filePath = path.join(directory, 'functions.json');
-
-//   const functions = JSON.parse(fs.readFileSync(filePath));
-//   res.statusCode = 200;
-//   res.send(functions);
-//   // console.log('Functions from read functions: ', functions);
-// };
 interface TFunc {
   id: string;
   name: string;
