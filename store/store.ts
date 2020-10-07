@@ -1,17 +1,35 @@
 import { configureStore } from '@reduxjs/toolkit';
 import executionReducer from './reducers/executionReducer';
-import testcounterReducer from './reducers/counterSlice';
 import editorReducer from './reducers/editorReducer';
-import functionsReducer from './reducers/functionsReducer';
-import sequenceReducer from './reducers/sequenceReducer';
+import functionsReducer, { TFuncsInventory } from './reducers/functionsReducer';
+import sequenceReducer, { TInitialSequences } from './reducers/sequenceReducer';
 import canvasReducer from './reducers/canvasReducer';
 
-// import clockReducer from './lib/slices/clockSlice'
+export type StoreState = {
+  execution: {
+    composition: string;
+    input: string;
+    output: string;
+    compositionName: string;
+  };
+  editor: {
+    showEditor: boolean;
+  };
+  functions: {
+    currentFuncs: TFuncsInventory;
+    clickedFunc: string;
+  };
+  sequences: {
+    initialSequences: TInitialSequences;
+  };
+  canvas: {
+    flowRendererNodeId: string;
+  };
+};
 
-export default configureStore({
+export default configureStore<StoreState>({
   reducer: {
     execution: executionReducer,
-    counter: testcounterReducer,
     editor: editorReducer,
     functions: functionsReducer,
     sequences: sequenceReducer,

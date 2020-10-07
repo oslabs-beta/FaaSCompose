@@ -6,11 +6,12 @@ import { setComposition } from '../../store/reducers/executionReducer';
 const CloudProvidersDropdown = (props): JSX.Element => {
   const dispatch = useDispatch();
   const dispatchSetComposition = (payload) => dispatch(setComposition(payload));
-  const [provider, setProvider] = useState('Cloud Providers');
+  const [provider, setProvider] = useState('Cloud Providers'); // To know which cloud privider is selected
+
   const handleClick = async () => {
     try {
       const compositionResponse = await fetch(
-        `http://localhost:3000/api/ibm/convert/${props.compositionName}`,
+        `http://localhost:3000/api/ibm/convert/${props.compositionName}`
       );
       const compositionJSON = await compositionResponse.json();
       dispatchSetComposition(JSON.stringify(compositionJSON));
@@ -22,7 +23,11 @@ const CloudProvidersDropdown = (props): JSX.Element => {
   return (
     <div className="inline">
       {/* <span className="value">{composition}</span> */}
-      <DropdownButton id="dropdown-basic-button" title={provider} onSelect={(e) => setProvider(e)}>
+      <DropdownButton
+        id="dropdown-basic-button"
+        title={provider}
+        onSelect={(e) => setProvider(e)}
+      >
         <Dropdown.Item eventKey="IBM Cloud">IBM Cloud</Dropdown.Item>
         <Dropdown.Item eventKey="Google Cloud">Google Cloud</Dropdown.Item>
         <Dropdown.Item eventKey="AWS">AWS</Dropdown.Item>
