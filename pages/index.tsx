@@ -74,6 +74,8 @@ const Home = (): JSX.Element => {
         </Row>
       </Container>
     </div>
+
+      
   );
 };
 
