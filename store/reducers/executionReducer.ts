@@ -1,16 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CounterStateType } from './counterSlice';
+import { StoreState } from '../store';
 
-export type ExecutionStateType = {
-  composition: string;
-  input: string;
-  output: string;
-  compositionName: string;
-};
-
-export type GlobalState = {
-  counter: CounterStateType;
-  execution: ExecutionStateType;
+type Action = {
+  type: string;
+  payload: string;
 };
 
 const executionSlice = createSlice({
@@ -26,28 +19,28 @@ const executionSlice = createSlice({
     compositionName: '',
   },
   reducers: {
-    setComposition: (state, action) => {
+    setComposition: (state, action: Action) => {
       state.composition = action.payload;
     },
-    setUserInput: (state, action) => {
+    setUserInput: (state, action: Action) => {
       state.input = action.payload;
     },
-    setCompositionOutput: (state, action) => {
+    setCompositionOutput: (state, action: Action) => {
       state.output = action.payload;
     },
-    setCompositionName: (state, action) => {
+    setCompositionName: (state, action: Action) => {
       state.compositionName = action.payload;
     },
   },
 });
 
-export const selectComposition = (state: GlobalState): string =>
+export const selectComposition = (state: StoreState): string =>
   state.execution.composition;
-export const selectUserInput = (state: GlobalState): string =>
+export const selectUserInput = (state: StoreState): string =>
   state.execution.input;
-export const selectCompositionOutput = (state: GlobalState): string =>
+export const selectCompositionOutput = (state: StoreState): string =>
   state.execution.output;
-export const selectCompositionName = (state: GlobalState): string =>
+export const selectCompositionName = (state: StoreState): string =>
   state.execution.compositionName;
 
 export const {
