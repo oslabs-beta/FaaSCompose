@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { StoreState } from '../store';
 
 type TState = {
   currentFuncs: TFuncsInventory;
@@ -6,15 +7,15 @@ type TState = {
   funcToEdit: TFunc;
 };
 
-interface TFunc {
+type TFunc = {
   id: string;
   name: string;
   description: string;
   definition: string;
-}
-export interface TFuncsInventory {
+};
+export type TFuncsInventory = {
   [key: string]: TFunc;
-}
+};
 type TActionSetFuncs = {
   payload: TFuncsInventory;
   type: string;
@@ -23,7 +24,7 @@ type TActionAddFunc = {
   payload: TFunc;
   type: string;
 };
-type TActionSetCurrentFunc = {
+type TActionCurrentFunc = {
   payload: string;
   type: object;
 };
@@ -50,18 +51,18 @@ const functionsSlice = createSlice({
     setFuncToEdit: (state: TState, action: TActionAddFunc) => {
       state.funcToEdit = action.payload;
     },
-    setCurrentFunc: (state: TState, action: TActionSetCurrentFunc) => {
+    setCurrentFunc: (state: TState, action: TActionCurrentFunc) => {
       state.clickedFunc = action.payload;
     },
   },
 });
 
-export const selectFuncs = (state): TFuncsInventory =>
+export const selectFuncs = (state: StoreState): TFuncsInventory =>
   state.functions.currentFuncs;
-
-export const selectClickedFunc = (state): object => state.functions.clickedFunc;
-
-export const selectFuncToEdit = (state): TFunc => state.functions.funcToEdit;
+export const selectClickedFunc = (state: StoreState): object =>
+  state.functions.clickedFunc;
+export const selectFuncToEdit = (state: StoreState): TFunc =>
+  state.functions.funcToEdit;
 
 export const {
   setFuncs,

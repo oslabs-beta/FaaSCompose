@@ -13,7 +13,7 @@ const options = {
   ],
 
   // @link https://next-auth.js.org/configuration/databases
-  // database: process.env.NEXTAUTH_DATABASE_URL,
+  database: process.env.NEXTAUTH_DATABASE_URL,
 
   // @link https://next-auth.js.org/configuration/options#session
   session: {
@@ -101,6 +101,26 @@ const options = {
   // Additional options
   // secret: 'abcdef123456789' // Recommended (but auto-generated if not specified)
   // debug: true, // Use this option to enable debug messages in the console
+  events: {
+    signIn: async (message) => {
+      /* on successful sign in */
+    },
+    signOut: async (message) => {
+      /* on signout */
+    },
+    createUser: async (message) => {
+      /* user created */
+    },
+    linkAccount: async (message) => {
+      /* account linked to a user */
+    },
+    session: async (message) => {
+      /* session is active */
+    },
+    error: async (message) => {
+      /* error in authentication flow */
+    },
+  },
 };
 
 const Auth = (req, res) => NextAuth(req, res, options);
