@@ -3,6 +3,11 @@ const path = require('path');
 const fs = require('fs');
 const shell = require('shelljs');
 
+import db from '../../../../data/db';
+import {
+  getSession
+} from 'next-auth/client';
+
 const userDirectory = path.join(process.cwd(), 'data/users');
 const compositionsDirectory = path.join(userDirectory, 'compositions');
 
@@ -35,61 +40,104 @@ function getSequenceComposition(action1, action2) {
     )`;
 }
 
-function ConvertAgnosticCompositionIntoJSCode(compositionName) {
-  // read the agnostic composition
-  const agnosticfilePath = path.join(compositionsDirectory, `${compositionName}-agnostic.json`);
-  const agnosticContent = JSON.parse(fs.readFileSync(agnosticfilePath));
+async function ConvertAgnosticCompositionIntoJSCode(compositionName, user) {
 
-  // get function definitions for this user
-  const filePath = path.join(userDirectory, 'functions.json');
-  const functions = JSON.parse(fs.readFileSync(filePath));
-
-  // convert the agnostic composition it into js code
-  let jsContent = "const composer = require('openwhisk-composer'); ";
-  // if its an "If composition"
-  if (agnosticContent.type == 'ifelse') {
-    jsContent += getIfComposition(
-      {
-        name: agnosticContent.func[0],
-        definition: functions[agnosticContent.func[0]].definition,
-      },
-      {
-        name: agnosticContent.func[1],
-        definition: functions[agnosticContent.func[1]].definition,
-      },
-      {
-        name: agnosticContent.func[2],
-        definition: functions[agnosticContent.func[2]].definition,
-      },
-    );
-  } else if (agnosticContent.type == 'sequence') {
-    jsContent += getSequenceComposition(
-      {
-        name: agnosticContent.func[0],
-        definition: functions[agnosticContent.func[0]].definition,
-      },
-      {
-        name: agnosticContent.func[1],
-        definition: functions[agnosticContent.func[1]].definition,
-      },
-    );
-  }
-  // if its an "sequence composition"
-  // TODO: sequence code
-  // Save the IBM specific JS into a file for later use
-  const ibmCompositionJsfilePath = path.join(compositionsDirectory, `${compositionName}.js`);
-  fs.writeFileSync(ibmCompositionJsfilePath, jsContent);
-
-  return ibmCompositionJsfilePath;
+  return await db.task((t) => {
+    return t
+      .one(
+        'SELECT id FROM users WHERE name = $1',
+        user,
+        (a) => a.id
+      )
+      .then((userid) => {
+        return t
+          .one(
+            `SELECT definition 
+          FROM compositions
+          WHERE name=$1 and userid=$2`,
+            [compositionName, userid],
+            ({
+              definition
+            }) => ({
+              definition,
+              userid
+            })
+          )
+      })
+      .then(async ({
+        definition,
+        userid
+      }) => {
+        const functions = await t
+          .any(
+            `SELECT id, name, description, definition 
+          FROM functions
+          WHERE userid=$1`,
+            userid
+          );
+        return {
+          definition: JSON.parse(definition),
+          functions,
+          userid
+        }
+      })
+      .then(({
+        definition,
+        functions,
+        userid
+      }) => {
+        const functionsObj = {};
+        functions.forEach((element) => {
+          functionsObj[element.id] = element;
+        });
+        let jsContent = "const composer = require('openwhisk-composer'); ";
+        // if its an "If composition"
+        if (definition.type == 'ifelse') {
+          jsContent += getIfComposition({
+            name: functionsObj[definition.func[0]].name,
+            definition: functionsObj[definition.func[0]].definition,
+          }, {
+            name: functionsObj[definition.func[1]].name,
+            definition: functionsObj[definition.func[1]].definition,
+          }, {
+            name: functionsObj[definition.func[2]].name,
+            definition: functionsObj[definition.func[2]].definition,
+          }, );
+        } else if (definition.type == 'sequence') {
+          jsContent += getSequenceComposition({
+            name: functionsObj[definition.func[0]].name,
+            definition: functionsObj[definition.func[0]].definition,
+          }, {
+            name: functionsObj[definition.func[1]].name,
+            definition: functionsObj[definition.func[1]].definition,
+          }, );
+        }
+        // if its an "sequence composition"
+        // TODO: sequence code
+        // Save the IBM specific JS into a file for later use
+        const ibmCompositionJsfilePath = path.join(compositionsDirectory, `${compositionName}.js`);
+        fs.writeFileSync(ibmCompositionJsfilePath, jsContent);
+        return ibmCompositionJsfilePath;
+      })
+      .catch((error) => {
+        console.log('ERROR: ', error);
+        res.statusCode = 500;
+        return res.send('Error in add-function: ', error);
+      });
+  });
 }
 
-export default (req, res) => {
+export default async (req, res) => {
   const {
-    query: { compositionName },
+    query: {
+      compositionName
+    },
   } = req;
-
+  const session = await getSession({
+    req
+  });
   // convert from agnostic to ibm specific JS composition representation
-  const ibmCompositionJsfilePath = ConvertAgnosticCompositionIntoJSCode(compositionName);
+  const ibmCompositionJsfilePath = await ConvertAgnosticCompositionIntoJSCode(compositionName, session.user.name);
 
   // convert the JS into JSON IBM specific representation with the compose cmd line
   const ibmCompositionJsonfilePath = path.join(compositionsDirectory, `${compositionName}.json`);
