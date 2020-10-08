@@ -34,8 +34,6 @@ const FuncEditor = (): JSX.Element => {
     let id;
     if (funcToEdit.id) {
       id = funcToEdit.id;
-    } else {
-      id = String(nanoid());
     }
 
     const name = (document.getElementById('name') as HTMLTextAreaElement).value;

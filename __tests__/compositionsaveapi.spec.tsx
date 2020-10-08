@@ -1,8 +1,16 @@
 import { createMocks } from 'node-mocks-http';
 import handleSave from '../pages/api/composition/agnosticsave/[compositionname]';
-const fs = require('fs');
 
-jest.mock('fs');
+jest.mock('next-auth/client', () => ({
+  getSession: jest.fn(() => ({ user: { name: 'user1' } })),
+}));
+
+jest.mock('../data/db', () => ({
+  task: jest.fn(),
+}));
+
+import db from '../data/db';
+import { getSession } from 'next-auth/client';
 
 describe('/api/composition/agnosticsave/[compositionName]', () => {
   beforeEach(() => {
@@ -35,7 +43,7 @@ describe('/api/composition/agnosticsave/[compositionName]', () => {
       'Composition Save: Missing Composition Name'
     );
   });
-  it('returns status code 200 if passed a body and composition name', async () => {
+  it('if there is valid composition name and body, get the user from the session and call a DB operation', async () => {
     const compositionname = 'demo';
     const { req, res } = createMocks({
       method: 'POST',
@@ -47,10 +55,7 @@ describe('/api/composition/agnosticsave/[compositionName]', () => {
 
     await handleSave(req, res);
 
-    expect(res._getStatusCode()).toBe(200);
-    expect(fs.writeFile).toHaveBeenCalled();
-    expect(fs.writeFile.mock.calls[0][0]).toContain(
-      `${compositionname}-agnostic.json`
-    );
+    expect(getSession).toHaveBeenCalled();
+    expect(db.task).toHaveBeenCalled();
   });
 });

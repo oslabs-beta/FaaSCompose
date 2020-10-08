@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { StoreState } from '../store';
 
 const editorSlice = createSlice({
   name: 'editorview',
@@ -12,7 +13,8 @@ const editorSlice = createSlice({
   },
 });
 
-export const selectShow = (state): boolean => state.editor.showEditor;
+export const selectShow = (state: StoreState): boolean =>
+  state.editor.showEditor;
 
 export const { toggleFuncEditor } = editorSlice.actions;
 

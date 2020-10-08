@@ -8,6 +8,8 @@ import {
   Tooltip,
   OverlayTrigger,
 } from 'react-bootstrap';
+import { useSession } from 'next-auth/client';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,7 +21,8 @@ import {
   setFuncToEdit,
 } from '../store/reducers/functionsReducer';
 
-const FunctionInventory = () => {
+const FunctionInventory = (): JSX.Element => {
+  const [session, loading] = useSession();
   const dispatch = useDispatch();
   const currentFuncs = useSelector(selectFuncs);
   const funcs = [];
@@ -44,7 +47,7 @@ const FunctionInventory = () => {
     getFuncs();
   }, []);
 
-  for (let func in currentFuncs) {
+  for (const func in currentFuncs) {
     funcs.push(
       <ListGroupItem
         style={{

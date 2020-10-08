@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { type } from 'os';
+import { StoreState } from '../store';
 
-type TInitialSequences = {
+export type TInitialSequences = {
   list: string[];
   clickedSequence: string;
 };
@@ -35,9 +35,9 @@ const sequenceSlice = createSlice({
   },
 });
 
-export const selectSequence = (state): TInitialSequences =>
+export const selectSequence = (state: StoreState): TInitialSequences =>
   state.sequences.initialSequences;
-export const selectCurrentSequence = (state): string =>
+export const selectCurrentSequence = (state: StoreState): string =>
   state.sequences.initialSequences.clickedSequence;
 
 export const { setInitialSequences, changeCurrent } = sequenceSlice.actions;
