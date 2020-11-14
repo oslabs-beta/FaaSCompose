@@ -1,12 +1,5 @@
-const path = require('path');
-const fs = require('fs');
 import db from '../../../../data/db';
 import { getSession } from 'next-auth/client';
-
-const compositionsDirectory = path.join(
-  process.cwd(),
-  'data/users/compositions'
-);
 
 export const config = {
   api: {
@@ -15,7 +8,10 @@ export const config = {
     },
   },
 };
-
+/*
+ API to save the agnostic composition on JSON format inside the compositions table
+*/
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default async (req, res) => {
   const {
     query: { compositionname },
@@ -31,13 +27,14 @@ export default async (req, res) => {
     res.statusCode = 500;
     return res.send('Composition Save: Missing Composition Name');
   }
-  // const agnosticfilePath = path.join(
-  //   compositionsDirectory,
-  //   `${compositionname}-agnostic.json`
-  // );
 
   const session = await getSession({ req });
-  // let id = ;
+  /* 
+    this step looks for the user and get its id to use it in futher operations
+    then checks if a composition already exists with a specific name for the current user
+    if it does it updates the composition definition
+    if it doesn't it creates a new composition with the passed name and definition
+  */
   db.task((t) => {
     return t
       .one(
@@ -94,15 +91,4 @@ export default async (req, res) => {
         );
       });
   });
-
-  // fs.writeFile(agnosticfilePath, JSON.stringify(req.body), (err) => {
-  //   if (err) {
-  //     console.log('Composition Save: ', err);
-  //     res.statusCode = 500;
-  //     return res.send('Composition Save: Failure when saving the composition');
-  //   }
-  //   console.log('Composition Save: Save successful');
-  //   res.statusCode = 200;
-  //   return res.send('');
-  // });
 };

@@ -1,18 +1,9 @@
-const path = require('path');
-const fs = require('fs');
 import db from '../../../data/db';
 import { getSession } from 'next-auth/client';
 
-const readFunctionWithFiles = (req, res) => {
-  const directory = path.join(process.cwd(), 'data/users');
-  const filePath = path.join(directory, 'functions.json');
-
-  const functions = JSON.parse(fs.readFileSync(filePath));
-  res.statusCode = 200;
-  res.send(functions);
-  // console.log('Functions from read functions: ', functions);
-};
-
+/*
+ API to get the list of functions for the current user
+*/
 export default async (req, res) => {
   const session = await getSession({ req });
   db.any(

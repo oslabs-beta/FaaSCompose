@@ -8,6 +8,13 @@ export const config = {
   },
 };
 
+/*
+ API that received the composition name as paramter on the query string 
+ and attemp to execute a composition on the IBM cloud with that name
+ by calling the IBM CLI using the command line
+ parameters will be passed if needed
+ If succesful, it will return the result of the execution (thats why the command have the "--result")
+*/
 
 export default (req, res) => {
   // get current user to get its configuration and to know where to get the files from
@@ -26,7 +33,9 @@ export default (req, res) => {
     });
   }
   console.log('ibm function invoke cmd', ibmInvokeCmd);
-  shell.exec(ibmInvokeCmd, (code, stdout, stderr) => {
+  // Invoking the composition calling the IBM Cloud CLI using the command line
+  shell.exec(ibmInvokeCmd, (code: number, stdout: any, stderr: any) => {
+    // if code is 0 the call was succesfull
     console.log('ibm function invoke Exit code:', code);
     console.log('ibm function invoke stdout:', stdout);
     console.log('ibm function invoke stdout:', stdout);
