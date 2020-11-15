@@ -1,8 +1,17 @@
 const shell = require('shelljs');
 const path = require('path');
 
-const compositionsDirectory = path.join(process.cwd(), 'data/users/compositions');
+const compositionsDirectory = path.join(
+  process.cwd(),
+  'data/users/compositions'
+);
 
+/*
+  API that received the composition name
+  Lookup for a JSON file (left by the convert step)
+  and use the command line command "deploy" to the IBM cloud using a "name" for that deployed composition
+  this late will later be referenced in order to execute it
+*/
 export default (req, res) => {
   // get current user to get its configuration and to know where to get the files from
   // get the name of the composition to deploy

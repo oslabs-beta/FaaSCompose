@@ -8,7 +8,9 @@ export const config = {
   },
 };
 
-
+/*
+ API to Execute the composition, but getting additional information after execution, like how much it took to execute, etc
+*/
 export default (req, res) => {
   // get current user to get its configuration and to know where to get the files from
   // get the name of the composition to deploy

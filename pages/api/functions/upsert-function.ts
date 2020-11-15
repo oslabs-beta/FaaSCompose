@@ -1,4 +1,3 @@
-const fs = require('fs');
 import db from '../../../data/db';
 import { getSession } from 'next-auth/client';
 
@@ -10,6 +9,9 @@ export const config = {
   },
 };
 
+/*
+  API to Insert or Update Function Info, including their definition, for one user
+*/
 export default async (req, res) => {
   // Determine whether we are updating or inserting
   // If there is an ID, we're inserting new function
